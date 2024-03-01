@@ -13,6 +13,7 @@ app.use(cookieParser())
 app.use(cors())
 app.use('/api', router)
 
+mongoose.set("strictQuery", false)
 const start = async ()=>{
     try{
         await mongoose.connect(process.env.DB_URL,{
