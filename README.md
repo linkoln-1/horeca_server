@@ -1,6 +1,6 @@
 ### register provider
 
-[Register Provider Endpoint](http://localhost:1000/api/auth/provider/register)
+http://localhost:1000/api/auth/provider/register
 
 # request
 
@@ -34,7 +34,7 @@
 
 ### register consumer
 
-[Register Consumer Endpoint](http://localhost:1000/api/auth/consumer/register)
+http://localhost:1000/api/auth/consumer/register
 
 # request
 
