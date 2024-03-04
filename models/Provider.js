@@ -39,6 +39,9 @@ const ProviderSchema = new mongoose.Schema(
       required: [true, "Пожалуйста, укажите пароль"],
       trim: true,
     },
+    code: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );

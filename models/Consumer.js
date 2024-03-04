@@ -13,7 +13,7 @@ const ConsumerSchema = new mongoose.Schema(
       trim: true,
     },
     inn: {
-      type: String,
+      type: Number,
       required: [true, "Пожалуйста, укажите ИНН Вашей компании"],
     },
     email: {

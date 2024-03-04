@@ -4,6 +4,8 @@ import {
   UnAuthenticatedError,
 } from "../errors/index-error.js";
 import Provider from "../models/Provider.js";
+import { sendVerificationEmail } from "../utils/emailVerification.js";
+import cryptoRandomString from "crypto-random-string";
 
 const registerProvider = async (req, res) => {
   try {
@@ -31,6 +33,9 @@ const registerProvider = async (req, res) => {
       throw new BadRequestError("Email уже используется");
     }
 
+    const code = cryptoRandomString({ length: 6, type: "numeric" });
+    console.log(code);
+
     const provider = await Provider.create({
       email,
       password,
@@ -39,8 +44,12 @@ const registerProvider = async (req, res) => {
       minOrder,
       deliveryMethod,
       inn,
+      code,
     });
     const token = provider.createJWT();
+
+    await sendVerificationEmail(provider.email, provider.code);
+
     res.status(StatusCodes.CREATED).json({
       provider: {
         email: provider.email,

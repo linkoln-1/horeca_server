@@ -4,6 +4,8 @@ import {
   UnAuthenticatedError,
 } from "../errors/index-error.js";
 import Consumer from "../models/Consumer.js";
+import { sendVerificationEmail } from "../utils/emailVerification.js";
+import cryptoRandomString from "crypto-random-string";
 
 const registerConsumer = async (req, res) => {
   try {
@@ -31,6 +33,9 @@ const registerConsumer = async (req, res) => {
       throw new BadRequestError("Email уже используется");
     }
 
+    const code = cryptoRandomString({ length: 6, type: "numeric" });
+    console.log(code);
+
     const consumer = await Consumer.create({
       email,
       password,
@@ -39,8 +44,13 @@ const registerConsumer = async (req, res) => {
       deliveryAddress,
       deliveryTime,
       inn,
+      code,
     });
+
     const token = consumer.createJWT();
+
+    await sendVerificationEmail(consumer.email, consumer.code);
+
     res.status(StatusCodes.CREATED).json({
       consumer: {
         email: consumer.email,
