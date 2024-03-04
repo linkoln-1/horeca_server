@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 import jwt from "jsonwebtoken";
-import { UnAuthenticatedError } from "../errors/index-errors.js";
+import { UnAuthenticatedError } from "../errors/index-error.js";
 
 const auth = async (req, res, next) => {
   const authHeader = req.headers.authorization;

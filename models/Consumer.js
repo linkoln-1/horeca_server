@@ -35,6 +35,13 @@ const ConsumerSchema = new mongoose.Schema(
         to: { type: String },
       },
     ],
+    code: {
+      type: Number,
+    },
+    isVerificated: {
+      type: Boolean,
+      default: false,
+    },
 
     password: {
       type: String,

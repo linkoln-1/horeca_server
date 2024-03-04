@@ -42,6 +42,10 @@ const ProviderSchema = new mongoose.Schema(
     code: {
       type: Number,
     },
+    isVerificated: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

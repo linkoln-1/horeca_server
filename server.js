@@ -6,9 +6,17 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./docs/swagger.js";
+import YAML from "yamljs";
+import "express-async-errors";
+import authProvider from "./middleware/authProvider.js";
+import authConsumer from "./middleware/authConsumer.js";
 
 import authProviderRouter from "./routes/authProviderRoutes.js";
 import authConsumerRouter from "./routes/authConsumerRoutes.js";
+import providerRouter from "./routes/providerRoutes.js";
+import consumerRouter from "./routes/consumerRoutes.js";
+
+const swaggerDocument = YAML.load("./docs/swagger.yaml");
 
 const app = express();
 
@@ -17,6 +25,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/", (req, res) => {
   res.json({ msg: "welcom" });
@@ -24,6 +33,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth/provider", authProviderRouter);
 app.use("/api/auth/consumer", authConsumerRouter);
+app.use("/api/provider", authProvider, providerRouter);
+app.use("/api/consumer", authConsumer, consumerRouter);
 
 mongoose.set("strictQuery", false);
 

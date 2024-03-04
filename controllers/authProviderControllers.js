@@ -46,6 +46,7 @@ const registerProvider = async (req, res) => {
       inn,
       code,
     });
+
     const token = provider.createJWT();
 
     await sendVerificationEmail(provider.email, provider.code);
