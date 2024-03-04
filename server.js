@@ -4,6 +4,8 @@ import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./docs/swagger.js";
 
 import authProviderRouter from "./routes/authProviderRoutes.js";
 import authConsumerRouter from "./routes/authConsumerRoutes.js";
@@ -13,6 +15,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get("/", (req, res) => {
   res.json({ msg: "welcom" });
