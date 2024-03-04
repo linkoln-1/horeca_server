@@ -6,8 +6,8 @@ import { registerConsumer } from "../controllers/authConsumerControllers.js";
  * @swagger
  * /api/auth/consumer/register:
  *   post:
- *     summary: Регистрация нового потребителя
- *     tags: [Регистрация общепита]
+ *     summary: Регистрация общепита
+ *     tags: [Регистрация/Верификация/Авторизация общепита]
  *     requestBody:
  *       required: true
  *       content:
@@ -26,17 +26,17 @@ import { registerConsumer } from "../controllers/authConsumerControllers.js";
  *               email:
  *                 type: string
  *                 format: email
- *                 description: Электронная почта потребителя.
+ *                 description: Электронная почта общепита.
  *               password:
  *                 type: string
  *                 format: password
  *                 description: Пароль для входа.
  *               companyName:
  *                 type: string
- *                 description: Название компании потребителя.
+ *                 description: Название компании общепита.
  *               inn:
  *                 type: string
- *                 description: ИНН компании потребителя.
+ *                 description: ИНН компании общепита.
  *               productCategory:
  *                 type: string
  *                 description: Категория продуктов.

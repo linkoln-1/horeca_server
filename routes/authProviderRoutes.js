@@ -6,8 +6,8 @@ import { registerProvider } from "../controllers/authProviderControllers.js";
  * @swagger
  * /api/auth/provider/register:
  *   post:
- *     summary: Регистрация нового поставщика
- *     tags: [Регистрация поставщика]
+ *     summary: Регистрация поставщика
+ *     tags: [Регистрация/Верификация/Авторизация поставщика]
  *     requestBody:
  *       required: true
  *       content:
