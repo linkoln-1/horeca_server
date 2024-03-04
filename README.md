@@ -2,7 +2,7 @@
 
 [Register Provider Endpoint](http://localhost:1000/api/auth/provider/register)
 
-# response
+# request
 
 ```json
 {
@@ -10,13 +10,13 @@
   "inn": 3242322332,
   "email": "eвma3il@yourcompany.com",
   "productCategory": ["Категория1", "Категория2"],
-  "minOrder": 1000, // Указать минимальную сумму заказа
+  "minOrder": 1000,
   "deliveryMethod": ["Способ1", "Способ2"],
   "password": "ВашПароль"
 }
 ```
 
-# request
+# response
 
 ```json
 {
@@ -36,7 +36,7 @@
 
 [Register Consumer Endpoint](http://localhost:1000/api/auth/consumer/register)
 
-# response
+# request
 
 ```json
 {
@@ -61,7 +61,7 @@
 }
 ```
 
-# request
+# response
 
 ```json
 {
