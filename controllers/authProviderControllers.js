@@ -14,6 +14,7 @@ const registerProvider = async (req, res) => {
       productCategory,
       minOrder,
       deliveryMethod,
+      inn,
     } = req.body;
     console.log(req.body);
     if (!email || !password) {
@@ -37,6 +38,7 @@ const registerProvider = async (req, res) => {
       productCategory,
       minOrder,
       deliveryMethod,
+      inn,
     });
     const token = provider.createJWT();
     res.status(StatusCodes.CREATED).json({
@@ -47,6 +49,7 @@ const registerProvider = async (req, res) => {
         minOrder: provider.minOrder,
         deliveryMethod: provider.deliveryMethod,
         _id: provider._id,
+        inn: provider.inn,
       },
       token,
     });

@@ -1,5 +1,7 @@
 import express from "express";
 const router = express.Router();
-import {} from "../controllers/authConsumerControllers.js";
+import { registerConsumer } from "../controllers/authConsumerControllers.js";
+
+router.route("/register").post(registerConsumer);
 
 export default router;

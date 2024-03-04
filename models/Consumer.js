@@ -12,22 +12,21 @@ const ConsumerSchema = new mongoose.Schema(
       required: [true, "Пожалуйста, укажите название"],
       trim: true,
     },
+    inn: {
+      type: String,
+      required: [true, "Пожалуйста, укажите ИНН Вашей компании"],
+    },
     email: {
       type: String,
       required: [true, "Пожалуйста, укажите email"],
       trim: true,
       validate: [validator.isEmail, "Пожалуйста, укажите действительный email"],
     },
-    phone: {
-      type: String,
-      required: [true, "Пожалуйста, укажите имя"],
-      trim: true,
-    },
     productCategory: {
       type: Array,
     },
     deliveryAddress: {
-      type: Array,
+      type: String,
     },
     deliveryTime: [
       {

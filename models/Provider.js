@@ -18,6 +18,10 @@ const ProviderSchema = new mongoose.Schema(
       type: String,
       required: [true, "Пожалуйста, укажите название Вашей компании"],
     },
+    inn: {
+      type: Number,
+      required: [true, "Пожалуйста, укажите ИНН Вашей компании"],
+    },
     productCategory: {
       type: Array,
       required: [true, "Должна быть указана как минимум одна категория товара"],
