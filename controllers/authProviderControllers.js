@@ -19,7 +19,7 @@ const registerProvider = async (req, res) => {
       deliveryMethod,
       inn,
     } = req.body;
-    console.log(req.body);
+
     if (!email || !password) {
       throw new BadRequestError("Введите все значения");
     }
@@ -35,7 +35,6 @@ const registerProvider = async (req, res) => {
     }
 
     const code = cryptoRandomString({ length: 6, type: "numeric" });
-    console.log(code);
 
     const provider = await Provider.create({
       email,
@@ -111,15 +110,15 @@ const loginProvider = async (req, res) => {
 
 const remindProvider = async (req, res) => {
   try {
-    const { email, newEmail } = req.body;
-    if (!email || !newEmail) {
-      return res.status(400).json({
-        message: "укажите все данные",
+    const { email } = req.body;
+    if (!email) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: "Укажите все данные",
       });
     }
 
     const emailRegex = /\S+@\S+\.\S+/;
-    if (!emailRegex.test(newEmail)) {
+    if (!emailRegex.test(email)) {
       throw new BadRequestError("Некорректный формат электронной почты");
     }
 
@@ -130,15 +129,17 @@ const remindProvider = async (req, res) => {
       });
     }
 
-    await sendRemindEmail(email, newEmail);
+    const { newPassword } = await sendRemindEmail(email);
 
-    return res.status(200).json({
-      message: "Напоминание успешно отправлено",
+    provider.password = newPassword;
+    await provider.save();
+    return res.status(StatusCodes.CREATED).json({
+      message: "Новый пароль сгенерирован и отправлен Вам на почту",
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({
-      message: "Произошла ошибка при обработке вашего запроса",
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Не корректные данные",
     });
   }
 };

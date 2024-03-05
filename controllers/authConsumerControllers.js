@@ -5,6 +5,7 @@ import {
 } from "../errors/index-error.js";
 import Consumer from "../models/Consumer.js";
 import { sendVerificationEmail } from "../utils/emailVerification.js";
+import { sendRemindEmail } from "../utils/emailReminder.js";
 import cryptoRandomString from "crypto-random-string";
 
 const registerConsumer = async (req, res) => {
@@ -18,7 +19,7 @@ const registerConsumer = async (req, res) => {
       deliveryAddress,
       deliveryTime,
     } = req.body;
-    console.log(req.body);
+
     if (!email || !password) {
       throw new BadRequestError("Введите все значения");
     }
@@ -34,7 +35,6 @@ const registerConsumer = async (req, res) => {
     }
 
     const code = cryptoRandomString({ length: 6, type: "numeric" });
-    console.log(code);
 
     const consumer = await Consumer.create({
       email,
@@ -108,4 +108,40 @@ const loginConsumer = async (req, res) => {
   });
 };
 
-export { registerConsumer, loginConsumer };
+const remindConsumer = async (req, res) => {
+  // try {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Укажите все данные",
+    });
+  }
+
+  const emailRegex = /\S+@\S+\.\S+/;
+  if (!emailRegex.test(email)) {
+    throw new BadRequestError("Некорректный формат электронной почты");
+  }
+
+  const consumer = await Consumer.findOne({ email });
+  if (!consumer) {
+    return res.status(404).json({
+      message: "Указанный Email не зарегистрирован",
+    });
+  }
+
+  const { newPassword } = await sendRemindEmail(email);
+
+  consumer.password = newPassword;
+  await consumer.save();
+  return res.status(StatusCodes.CREATED).json({
+    message: "Новый пароль сгенерирован и отправлен Вам на почту",
+  });
+  // } catch (error) {
+  //   console.error(error);
+  //   return res.status(StatusCodes.BAD_REQUEST).json({
+  //     message: "Не корректные данные",
+  //   });
+  // }
+};
+
+export { registerConsumer, loginConsumer, remindConsumer };

@@ -3,6 +3,7 @@ const router = express.Router();
 import {
   registerConsumer,
   loginConsumer,
+  remindConsumer,
 } from "../controllers/authConsumerControllers.js";
 
 /**
@@ -183,5 +184,62 @@ router.route("/register").post(registerConsumer);
  */
 
 router.route("/login").post(loginConsumer);
+
+/**
+ * @swagger
+ * /api/auth/consumer/remind:
+ *   post:
+ *     summary: Генерация и отправка нового пароля общепиту.
+ *     tags: [Регистрация/Верификация/Авторизация общепита]
+ *     description: Отправляет на электронную почту общепита новый пароль, если указанный email зарегистрирован.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: Электронная почта общепита для восстановления пароля.
+ *     responses:
+ *       201:
+ *         description: Новый пароль успешно сгенерирован и отправлен на электронную почту.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Новый пароль сгенерирован и отправлен Вам на почту.
+ *       400:
+ *         description: Некорректный запрос, возможно, неверный формат электронной почты или отсутствие обязательных данных.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Не корректные данные.
+ *       404:
+ *         description: Указанный email не зарегистрирован в системе.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Указанный Email не зарегистрирован.
+ *       500:
+ *         description: Внутренняя ошибка сервера.
+ */
+
+router.route("/remind").post(remindConsumer);
 
 export default router;

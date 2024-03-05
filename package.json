@@ -26,6 +26,7 @@
     "nodemailer": "^6.9.11",
     "nodemon": "^3.1.0",
     "npm": "^10.5.0",
+    "random-words": "^2.0.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "validator": "^13.11.0",

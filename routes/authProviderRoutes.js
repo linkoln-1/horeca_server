@@ -157,6 +157,61 @@ router.route("/register").post(registerProvider);
 
 router.route("/login").post(loginProvider);
 
+/**
+ * @swagger
+ * /api/auth/provider/remind:
+ *   post:
+ *     summary: Генерация и отправка нового пароля поставщику.
+ *     tags: [Регистрация/Верификация/Авторизация поставщика]
+ *     description: Отправляет на электронную почту поставщика новый пароль, если указанный email зарегистрирован.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: Электронная почта поставщика для восстановления пароля.
+ *     responses:
+ *       201:
+ *         description: Новый пароль успешно сгенерирован и отправлен на электронную почту.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Новый пароль сгенерирован и отправлен Вам на почту.
+ *       400:
+ *         description: Некорректный запрос, возможно, неверный формат электронной почты или отсутствие обязательных данных.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Не корректные данные.
+ *       404:
+ *         description: Указанный email не зарегистрирован в системе.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Указанный Email не зарегистрирован.
+ *       500:
+ *         description: Внутренняя ошибка сервера.
+ */
+
 router.route("/remind").post(remindProvider);
 
 export default router;
