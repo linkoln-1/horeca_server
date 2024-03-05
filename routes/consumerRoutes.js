@@ -26,7 +26,7 @@ import { verificationConsumer } from "../controllers/consumerControllers.js";
  *                 description: Идентификатор общепита, полученный при регистрации.
  *     responses:
  *       201:
- *         description: Общепит успешно верифицирован.
+ *         description: Потребитель успешно зарегистрирован.
  *         content:
  *           application/json:
  *             schema:
@@ -40,17 +40,28 @@ import { verificationConsumer } from "../controllers/consumerControllers.js";
  *                     companyName:
  *                       type: string
  *                     productCategory:
- *                       type: string
+ *                       type: array
+ *                       items:
+ *                         type: string
  *                     deliveryAddress:
  *                       type: string
  *                     deliveryTime:
- *                       type: string
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           day:
+ *                             type: string
+ *                           from:
+ *                             type: string
+ *                           to:
+ *                             type: string
  *                     inn:
- *                       type: string
- *                     isVerificated:
- *                       type: boolean
+ *                       type: number
  *                     _id:
  *                       type: string
+ *                 token:
+ *                   type: string
  *       401:
  *         description: Ошибка верификации. Код не совпадает или пользователь не найден.
  *       500:

@@ -38,17 +38,34 @@ import {
  *                 type: string
  *                 description: Название компании общепита.
  *               inn:
- *                 type: string
+ *                 type: number
  *                 description: ИНН компании общепита.
  *               productCategory:
- *                 type: string
- *                 description: Категория продуктов.
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Категории продуктов.
  *               deliveryAddress:
  *                 type: string
  *                 description: Адрес доставки.
  *               deliveryTime:
- *                 type: string
- *                 description: Предпочтительное время доставки.
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   required:
+ *                     - day
+ *                     - from
+ *                     - to
+ *                   properties:
+ *                     day:
+ *                       type: string
+ *                       description: День доставки.
+ *                     from:
+ *                       type: string
+ *                       description: Время начала доставки.
+ *                     to:
+ *                       type: string
+ *                       description: Время окончания доставки.
  *     responses:
  *       201:
  *         description: Потребитель успешно зарегистрирован.
@@ -65,13 +82,24 @@ import {
  *                     companyName:
  *                       type: string
  *                     productCategory:
- *                       type: string
+ *                       type: array
+ *                       items:
+ *                         type: string
  *                     deliveryAddress:
  *                       type: string
  *                     deliveryTime:
- *                       type: string
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           day:
+ *                             type: string
+ *                           from:
+ *                             type: string
+ *                           to:
+ *                             type: string
  *                     inn:
- *                       type: string
+ *                       type: number
  *                     _id:
  *                       type: string
  *                 token:
@@ -109,8 +137,8 @@ router.route("/register").post(registerConsumer);
  *                 format: password
  *                 description: Пароль для входа.
  *     responses:
- *       200:
- *         description: Успешный вход. Возвращает информацию об общепите и токен доступа.
+ *       201:
+ *         description: Потребитель успешно зарегистрирован.
  *         content:
  *           application/json:
  *             schema:
@@ -124,15 +152,24 @@ router.route("/register").post(registerConsumer);
  *                     companyName:
  *                       type: string
  *                     productCategory:
- *                       type: string
+ *                       type: array
+ *                       items:
+ *                         type: string
  *                     deliveryAddress:
  *                       type: string
  *                     deliveryTime:
- *                       type: string
- *                     isVerificated:
- *                       type: boolean
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           day:
+ *                             type: string
+ *                           from:
+ *                             type: string
+ *                           to:
+ *                             type: string
  *                     inn:
- *                       type: string
+ *                       type: number
  *                     _id:
  *                       type: string
  *                 token:

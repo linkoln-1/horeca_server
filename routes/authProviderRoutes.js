@@ -39,14 +39,18 @@ import {
  *                 type: string
  *                 description: Название компании провайдера.
  *               productCategory:
- *                 type: string
- *                 description: Категория продуктов, которые предлагает компания.
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Категории продуктов, которые предлагает компания.
  *               minOrder:
  *                 type: number
  *                 description: Минимальный размер заказа.
  *               deliveryMethod:
- *                 type: string
- *                 description: Способ доставки.
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Способы доставки.
  *               inn:
  *                 type: number
  *                 description: ИНН компании.
@@ -66,11 +70,18 @@ import {
  *                     companyName:
  *                       type: string
  *                     productCategory:
- *                       type: string
+ *                       type: array
+ *                       items:
+ *                         type: string
  *                     minOrder:
  *                       type: number
  *                     deliveryMethod:
- *                       type: string
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                     isVerificated:
+ *                       type: boolean
+ *                       description: Статус верификации провайдера.
  *                     _id:
  *                       type: string
  *                     inn:
@@ -110,8 +121,8 @@ router.route("/register").post(registerProvider);
  *                 format: password
  *                 description: Пароль поставщика.
  *     responses:
- *       200:
- *         description: Успешная авторизация. Возвращает информацию о поставщике и токен доступа.
+ *       201:
+ *         description: Провайдер успешно зарегистрирован. Возвращает информацию о провайдере и токен доступа. Шестизначный код генерируется и отправляется на почту.
  *         content:
  *           application/json:
  *             schema:
@@ -127,15 +138,15 @@ router.route("/register").post(registerProvider);
  *                     productCategory:
  *                       type: string
  *                     minOrder:
- *                       type: number
+ *                       type: string
  *                     deliveryMethod:
  *                       type: string
  *                     _id:
  *                       type: string
  *                     inn:
- *                       type: number
- *                 token:
- *                   type: string
+ *                       type: string
+ *                     isVerificated:
+ *                       type: boolean
  *       400:
  *         description: Неверный запрос. Email или пароль не указаны.
  *       401:
