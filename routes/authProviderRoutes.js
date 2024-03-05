@@ -1,6 +1,10 @@
 import express from "express";
 const router = express.Router();
-import { registerProvider } from "../controllers/authProviderControllers.js";
+import {
+  registerProvider,
+  loginProvider,
+  remindProvider,
+} from "../controllers/authProviderControllers.js";
 
 /**
  * @swagger
@@ -80,5 +84,68 @@ import { registerProvider } from "../controllers/authProviderControllers.js";
  */
 
 router.route("/register").post(registerProvider);
+
+/**
+ * @swagger
+ * /api/auth/provider/login:
+ *   post:
+ *     summary: Авторизация поставщика
+ *     tags: [Регистрация/Верификация/Авторизация поставщика]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: Электронная почта поставщика.
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 description: Пароль поставщика.
+ *     responses:
+ *       200:
+ *         description: Успешная авторизация. Возвращает информацию о поставщике и токен доступа.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 provider:
+ *                   type: object
+ *                   properties:
+ *                     email:
+ *                       type: string
+ *                     companyName:
+ *                       type: string
+ *                     productCategory:
+ *                       type: string
+ *                     minOrder:
+ *                       type: number
+ *                     deliveryMethod:
+ *                       type: string
+ *                     _id:
+ *                       type: string
+ *                     inn:
+ *                       type: number
+ *                 token:
+ *                   type: string
+ *       400:
+ *         description: Неверный запрос. Email или пароль не указаны.
+ *       401:
+ *         description: Неавторизован. Некорректные учетные данные.
+ *       500:
+ *         description: Внутренняя ошибка сервера.
+ */
+
+router.route("/login").post(loginProvider);
+
+router.route("/remind").post(remindProvider);
 
 export default router;

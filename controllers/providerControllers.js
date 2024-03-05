@@ -6,7 +6,7 @@ import {
 import Provider from "../models/Provider.js";
 
 const verificationProvider = async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
 
   try {
     const { code, providerId } = req.body;

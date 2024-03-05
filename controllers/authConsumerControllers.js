@@ -68,4 +68,44 @@ const registerConsumer = async (req, res) => {
   }
 };
 
-export { registerConsumer };
+const loginConsumer = async (req, res) => {
+  // console.log(req.body);
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Укажите Email и пароль",
+    });
+  }
+
+  const consumer = await Consumer.findOne({ email });
+  if (!consumer) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Не корректные данные",
+    });
+  }
+
+  const isPasswordCorrect = await consumer.comparePassword(password);
+  if (!isPasswordCorrect) {
+    return res.status(StatusCodes.UNAUTHORIZED).json({
+      message: "Не корректные данные",
+    });
+  }
+
+  const token = consumer.createJWT();
+
+  res.status(StatusCodes.OK).json({
+    consumer: {
+      email: consumer.email,
+      companyName: consumer.companyName,
+      productCategory: consumer.productCategory,
+      deliveryAddress: consumer.deliveryAddress,
+      deliveryTime: consumer.deliveryTime,
+      isVerificated: consumer.isVerificated,
+      inn: consumer.inn,
+      _id: consumer._id,
+    },
+    token,
+  });
+};
+
+export { registerConsumer, loginConsumer };
