@@ -6,7 +6,7 @@ const options = {
     info: {
       title: "Horeca API",
       version: "1.0.0",
-      description: "Horeca API",
+      description: "Для верификации общепита и поставщика требуется токен",
     },
   },
   apis: ["./routes/*.js"],

@@ -147,6 +147,8 @@ router.route("/register").post(registerProvider);
  *                       type: string
  *                     isVerificated:
  *                       type: boolean
+ *                 token:
+ *                   type: string
  *       400:
  *         description: Неверный запрос. Email или пароль не указаны.
  *       401:
