@@ -13,6 +13,7 @@ const registerConsumer = async (req, res) => {
     const {
       email,
       password,
+      phone,
       companyName,
       inn,
       productCategory,
@@ -39,6 +40,7 @@ const registerConsumer = async (req, res) => {
     const consumer = await Consumer.create({
       email,
       password,
+      phone,
       companyName,
       productCategory,
       deliveryAddress,
@@ -54,6 +56,7 @@ const registerConsumer = async (req, res) => {
     res.status(StatusCodes.CREATED).json({
       consumer: {
         email: consumer.email,
+        phone: consumer.phone,
         companyName: consumer.companyName,
         productCategory: consumer.productCategory,
         deliveryAddress: consumer.deliveryAddress,
@@ -96,6 +99,7 @@ const loginConsumer = async (req, res) => {
   res.status(StatusCodes.OK).json({
     consumer: {
       email: consumer.email,
+      phone: consumer.phone,
       companyName: consumer.companyName,
       productCategory: consumer.productCategory,
       deliveryAddress: consumer.deliveryAddress,
@@ -145,3 +149,4 @@ const remindConsumer = async (req, res) => {
 };
 
 export { registerConsumer, loginConsumer, remindConsumer };
+

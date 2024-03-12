@@ -27,6 +27,7 @@ const verificationConsumer = async (req, res) => {
     res.status(StatusCodes.CREATED).json({
       consumer: {
         email: consumer.email,
+        phone: consumer.phone,
         companyName: consumer.companyName,
         productCategory: consumer.productCategory,
         deliveryAddress: consumer.deliveryAddress,
@@ -42,3 +43,5 @@ const verificationConsumer = async (req, res) => {
 };
 
 export { verificationConsumer };
+
+

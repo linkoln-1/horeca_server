@@ -23,6 +23,7 @@ paths:
               required:
                 - email
                 - password
+                - phone
                 - companyName
                 - inn
                 - productCategory
@@ -37,6 +38,10 @@ paths:
                   type: string
                   format: password
                   description: "Пароль для входа."
+                phone:
+                  type: string
+                  format: phone
+                  description: "Контактный телефон"
                 companyName:
                   type: string
                   description: "Название компании общепита."
@@ -65,6 +70,8 @@ paths:
                     properties:
                       email:
                         type: string
+                      phone:
+                        type: string
                       companyName:
                         type: string
                       productCategory:
@@ -83,3 +90,5 @@ paths:
           description: "Ошибка запроса. Не все обязательные поля заполнены или электронная почта в некорректном формате."
         500:
           description: "Внутренняя ошибка сервера."
+
+

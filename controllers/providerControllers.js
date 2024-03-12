@@ -31,6 +31,7 @@ const verificationProvider = async (req, res) => {
     res.status(StatusCodes.CREATED).json({
       provider: {
         email: provider.email,
+        phone: provider.phone,
         companyName: provider.companyName,
         productCategory: provider.productCategory,
         minOrder: provider.minOrder,
@@ -46,3 +47,5 @@ const verificationProvider = async (req, res) => {
 };
 
 export { verificationProvider };
+
+

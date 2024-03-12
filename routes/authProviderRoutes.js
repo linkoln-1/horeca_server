@@ -21,6 +21,7 @@ import {
  *             required:
  *               - email
  *               - password
+ *               - phone
  *               - companyName
  *               - productCategory
  *               - minOrder
@@ -35,6 +36,10 @@ import {
  *                 type: string
  *                 format: password
  *                 description: Пароль для входа в систему.
+ *               phone:
+ *                 type: string
+ *                 format: phone
+ *                 description: Контактный телефон
  *               companyName:
  *                 type: string
  *                 description: Название компании провайдера.
@@ -217,3 +222,5 @@ router.route("/login").post(loginProvider);
 router.route("/remind").post(remindProvider);
 
 export default router;
+
+

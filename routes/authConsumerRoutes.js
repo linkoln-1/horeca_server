@@ -21,6 +21,7 @@ import {
  *             required:
  *               - email
  *               - password
+ *               - phone
  *               - companyName
  *               - inn
  *               - productCategory
@@ -35,6 +36,10 @@ import {
  *                 type: string
  *                 format: password
  *                 description: Пароль для входа.
+ *               phone:
+ *                 type: string
+ *                 format: phone
+ *                 description: Контактный телефон
  *               companyName:
  *                 type: string
  *                 description: Название компании общепита.
@@ -79,6 +84,8 @@ import {
  *                   type: object
  *                   properties:
  *                     email:
+ *                       type: string
+ *                     phone:
  *                       type: string
  *                     companyName:
  *                       type: string
@@ -243,3 +250,5 @@ router.route("/login").post(loginConsumer);
 router.route("/remind").post(remindConsumer);
 
 export default router;
+
+

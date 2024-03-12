@@ -22,11 +22,18 @@ const ConsumerSchema = new mongoose.Schema(
       trim: true,
       validate: [validator.isEmail, "Пожалуйста, укажите действительный email"],
     },
+    phone: {
+      type: String,
+      required: [true, "Пожалуйста, укажите телефон"],
+      trim: true,
+    },
     productCategory: {
       type: Array,
+      required: [true, "Пожалуйста, укажите категорию продуктов"]
     },
     deliveryAddress: {
       type: String,
+        required: [true, "Пожалуйста, укажите адерс доставки"]
     },
     deliveryTime: [
       {
@@ -34,13 +41,14 @@ const ConsumerSchema = new mongoose.Schema(
         from: { type: String },
         to: { type: String },
       },
+        {required: true}
     ],
     code: {
-      type: Number,
+      type: Number
     },
     isVerificated: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     password: {
@@ -70,3 +78,5 @@ ConsumerSchema.methods.comparePassword = async function (candidatePassword) {
 };
 
 export default mongoose.model("Consumer", ConsumerSchema);
+
+

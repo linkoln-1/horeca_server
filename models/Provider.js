@@ -14,6 +14,11 @@ const ProviderSchema = new mongoose.Schema(
       validate: [validator.isEmail, "Пожалуйста, укажите действительный email"],
       unique: true,
     },
+    phone: {
+       type: String,
+       required: [true, "Пожалуйста, укажите телефон"],
+       trim: true,
+    },
     companyName: {
       type: String,
       required: [true, "Пожалуйста, укажите название Вашей компании"],
@@ -68,3 +73,5 @@ ProviderSchema.methods.comparePassword = async function (candidatePassword) {
 };
 
 export default mongoose.model("Provider", ProviderSchema);
+
+

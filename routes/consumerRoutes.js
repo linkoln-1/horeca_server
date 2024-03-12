@@ -71,3 +71,5 @@ import { verificationConsumer } from "../controllers/consumerControllers.js";
 router.route("/verification").post(verificationConsumer);
 
 export default router;
+
+

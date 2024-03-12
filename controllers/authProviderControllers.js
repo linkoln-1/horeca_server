@@ -13,6 +13,7 @@ const registerProvider = async (req, res) => {
     const {
       email,
       password,
+      phone,
       companyName,
       productCategory,
       minOrder,
@@ -39,6 +40,7 @@ const registerProvider = async (req, res) => {
     const provider = await Provider.create({
       email,
       password,
+      phone,
       companyName,
       productCategory,
       minOrder,
@@ -54,6 +56,7 @@ const registerProvider = async (req, res) => {
     res.status(StatusCodes.CREATED).json({
       provider: {
         email: provider.email,
+        phone: provider.phone,
         companyName: provider.companyName,
         productCategory: provider.productCategory,
         minOrder: provider.minOrder,
@@ -97,6 +100,7 @@ const loginProvider = async (req, res) => {
   res.status(StatusCodes.OK).json({
     provider: {
       email: provider.email,
+      phone: provider.phone,
       companyName: provider.companyName,
       productCategory: provider.productCategory,
       minOrder: provider.minOrder,
@@ -145,3 +149,5 @@ const remindProvider = async (req, res) => {
 };
 
 export { registerProvider, loginProvider, remindProvider };
+
+
