@@ -26,7 +26,7 @@ import {
  *               - inn
  *               - productCategory
  *               - deliveryAddress
- *               - deliveryTime
+ *               - deliveryMethod
  *             properties:
  *               email:
  *                 type: string
@@ -39,7 +39,7 @@ import {
  *               phone:
  *                 type: string
  *                 format: phone
- *                 description: Контактный телефон
+ *                 description: Контактный телефон.
  *               companyName:
  *                 type: string
  *                 description: Название компании общепита.
@@ -52,70 +52,102 @@ import {
  *                   type: string
  *                 description: Категории продуктов.
  *               deliveryAddress:
- *                 type: string
- *                 description: Адрес доставки.
- *               deliveryTime:
+ *                 type: object
+ *                 properties:
+ *                   address:
+ *                     type: string
+ *                     description: Адрес доставки.
+ *                   deliveryTime:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         day:
+ *                           type: string
+ *                           description: День доставки.
+ *                         from:
+ *                           type: string
+ *                           description: Время начала доставки.
+ *                         to:
+ *                           type: string
+ *                           description: Время окончания доставки.
+ *                 required:
+ *                   - address
+ *                   - deliveryTime
+ *                 description: Адрес и временные рамки доставки.
+ *               deliveryMethod:
  *                 type: array
  *                 items:
- *                   type: object
- *                   required:
- *                     - day
- *                     - from
- *                     - to
- *                   properties:
- *                     day:
- *                       type: string
- *                       description: День доставки.
- *                     from:
- *                       type: string
- *                       description: Время начала доставки.
- *                     to:
- *                       type: string
- *                       description: Время окончания доставки.
+ *                   type: string
+ *                 description: Метод доставки.
+ *               code:
+ *                 type: number
+ *                 description: Код для верификации (необязательный).
+ *               isVerificated:
+ *                 type: boolean
+ *                 description: Статус верификации (по умолчанию false).
  *     responses:
  *       201:
  *         description: Потребитель успешно зарегистрирован.
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 consumer:
- *                   type: object
- *                   properties:
- *                     email:
- *                       type: string
- *                     phone:
- *                       type: string
- *                     companyName:
- *                       type: string
- *                     productCategory:
- *                       type: array
- *                       items:
- *                         type: string
- *                     deliveryAddress:
- *                       type: string
- *                     deliveryTime:
- *                       type: array
- *                       items:
- *                         type: object
- *                         properties:
- *                           day:
- *                             type: string
- *                           from:
- *                             type: string
- *                           to:
- *                             type: string
- *                     inn:
- *                       type: number
- *                     _id:
- *                       type: string
- *                 token:
- *                   type: string
+ *               $ref: '#/components/schemas/Consumer'
  *       400:
  *         description: Ошибка запроса. Не все обязательные поля заполнены или электронная почта в некорректном формате.
  *       500:
  *         description: Внутренняя ошибка сервера.
+ *
+ * components:
+ *   schemas:
+ *     Consumer:
+ *       type: object
+ *       required:
+ *         - email
+ *         - phone
+ *         - companyName
+ *         - inn
+ *         - productCategory
+ *         - deliveryAddress
+ *         - deliveryMethod
+ *       properties:
+ *         email:
+ *           type: string
+ *           format: email
+ *         phone:
+ *           type: string
+ *         companyName:
+ *           type: string
+ *         inn:
+ *           type: number
+ *         productCategory:
+ *           type: array
+ *           items:
+ *             type: string
+ *         deliveryAddress:
+ *           type: object
+ *           properties:
+ *             address:
+ *               type: string
+ *             deliveryTime:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   day:
+ *                     type: string
+ *                   from:
+ *                     type: string
+ *                   to:
+ *                     type: string
+ *         deliveryMethod:
+ *           type: array
+ *           items:
+ *             type: string
+ *         code:
+ *           type: number
+ *         isVerificated:
+ *           type: boolean
  */
 
 router.route("/register").post(registerConsumer);
@@ -250,5 +282,3 @@ router.route("/login").post(loginConsumer);
 router.route("/remind").post(remindConsumer);
 
 export default router;
-
-

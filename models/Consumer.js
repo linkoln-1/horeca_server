@@ -29,26 +29,42 @@ const ConsumerSchema = new mongoose.Schema(
     },
     productCategory: {
       type: Array,
-      required: [true, "Пожалуйста, укажите категорию продуктов"]
+      required: [true, "Пожалуйста, укажите категорию продуктов"],
     },
-    deliveryAddress: {
-      type: String,
-        required: [true, "Пожалуйста, укажите адерс доставки"]
-    },
-    deliveryTime: [
+    deliveryAddress: [
       {
-        day: { type: String },
-        from: { type: String },
-        to: { type: String },
+        address: {
+          type: String,
+          required: [true, "Пожалуйста, укажите адрес доставки"],
+        },
+        deliveryTime: [
+          {
+            day: {
+              type: String,
+              required: [true, "Пожалуйста, укажите день доставки"],
+            },
+            from: {
+              type: String,
+              required: [true, "Пожалуйста, укажите время начала доставки"],
+            },
+            to: {
+              type: String,
+              required: [true, "Пожалуйста, укажите время окончания доставки"],
+            },
+          },
+        ],
       },
-        {required: true}
     ],
+    deliveryMethod: {
+      type: Array,
+      required: [true, "Пожалуйста, укажите метод доставки"],
+    },
     code: {
-      type: Number
+      type: Number,
     },
     isVerificated: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     password: {
@@ -78,5 +94,3 @@ ConsumerSchema.methods.comparePassword = async function (candidatePassword) {
 };
 
 export default mongoose.model("Consumer", ConsumerSchema);
-
-
