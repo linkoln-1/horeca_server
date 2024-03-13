@@ -34,17 +34,16 @@ import {
  *                 description: Электронная почта общепита.
  *               password:
  *                 type: string
- *                 format: password
  *                 description: Пароль для входа.
  *               phone:
  *                 type: string
- *                 format: phone
  *                 description: Контактный телефон.
  *               companyName:
  *                 type: string
  *                 description: Название компании общепита.
  *               inn:
- *                 type: number
+ *                 type: integer
+ *                 format: int64
  *                 description: ИНН компании общепита.
  *               productCategory:
  *                 type: array
@@ -52,39 +51,40 @@ import {
  *                   type: string
  *                 description: Категории продуктов.
  *               deliveryAddress:
- *                 type: object
- *                 properties:
- *                   address:
- *                     type: string
- *                     description: Адрес доставки.
- *                   deliveryTime:
- *                     type: array
- *                     items:
- *                       type: object
- *                       properties:
- *                         day:
- *                           type: string
- *                           description: День доставки.
- *                         from:
- *                           type: string
- *                           description: Время начала доставки.
- *                         to:
- *                           type: string
- *                           description: Время окончания доставки.
- *                 required:
- *                   - address
- *                   - deliveryTime
- *                 description: Адрес и временные рамки доставки.
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     address:
+ *                       type: string
+ *                       description: Адрес доставки.
+ *                     deliveryTime:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           day:
+ *                             type: string
+ *                             description: День доставки.
+ *                           from:
+ *                             type: string
+ *                             description: Время начала доставки.
+ *                           to:
+ *                             type: string
+ *                             description: Время окончания доставки.
+ *                 description: Адреса и временные рамки доставки.
  *               deliveryMethod:
  *                 type: array
  *                 items:
  *                   type: string
  *                 description: Метод доставки.
  *               code:
- *                 type: number
+ *                 type: integer
+ *                 format: int32
  *                 description: Код для верификации (необязательный).
  *               isVerificated:
  *                 type: boolean
+ *                 default: false
  *                 description: Статус верификации (по умолчанию false).
  *     responses:
  *       201:
@@ -104,6 +104,7 @@ import {
  *       type: object
  *       required:
  *         - email
+ *         - password
  *         - phone
  *         - companyName
  *         - inn
@@ -114,40 +115,47 @@ import {
  *         email:
  *           type: string
  *           format: email
+ *         password:
+ *           type: string
  *         phone:
  *           type: string
  *         companyName:
  *           type: string
  *         inn:
- *           type: number
+ *           type: integer
+ *           format: int64
  *         productCategory:
  *           type: array
  *           items:
  *             type: string
  *         deliveryAddress:
- *           type: object
- *           properties:
- *             address:
- *               type: string
- *             deliveryTime:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   day:
- *                     type: string
- *                   from:
- *                     type: string
- *                   to:
- *                     type: string
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               address:
+ *                 type: string
+ *               deliveryTime:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     day:
+ *                       type: string
+ *                     from:
+ *                       type: string
+ *                     to:
+ *                       type: string
  *         deliveryMethod:
  *           type: array
  *           items:
  *             type: string
  *         code:
- *           type: number
+ *           type: integer
+ *           format: int32
  *         isVerificated:
  *           type: boolean
+ *           default: false
  */
 
 router.route("/register").post(registerConsumer);
