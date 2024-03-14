@@ -1,0 +1,98 @@
+paths:
+  /api/auth/provider/register:
+    post:
+      summary: Регистрация поставщика
+      tags:
+        - Регистрация/Верификация/Авторизация поставщика
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - phone
+                - companyName
+                - productCategory
+                - minOrder
+                - deliveryMethod
+                - inn
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Электронная почта провайдера.
+                password:
+                  type: string
+                  format: password
+                  description: Пароль для входа в систему.
+                phone:
+                  type: string
+                  format: phone
+                  description: Контактный телефон.
+                companyName:
+                  type: string
+                  description: Название компании провайдера.
+                productCategory:
+                  type: array
+                  items:
+                    type: string
+                  description: Категории продуктов, которые предлагает компания.
+                minOrder:
+                  type: number
+                  description: Минимальный размер заказа.
+                deliveryMethod:
+                  type: array
+                  items:
+                    type: string
+                  description: Способы доставки.
+                inn:
+                  type: number
+                  description: ИНН компании.
+      responses:
+        "201":
+          description: Провайдер успешно зарегистрирован. Возвращает информацию о провайдере и токен доступа. Шестизначный код генерируется и отправляется на почту.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  provider:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                      companyName:
+                        type: string
+                      productCategory:
+                        type: array
+                        items:
+                          type: string
+                      minOrder:
+                        type: number
+                      deliveryMethod:
+                        type: array
+                        items:
+                          type: string
+                      isVerificated:
+                        type: boolean
+                        description: Статус верификации провайдера.
+                      _id:
+                        type: string
+                      inn:
+                        type: number
+                  token:
+                    type: string
+        "400":
+          description: Неверный запрос. Введены не все значения или некорректный формат электронной почты.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Внутренняя ошибка сервера.

@@ -27,15 +27,14 @@ const ConsumerSchema = new mongoose.Schema(
       required: [true, "Пожалуйста, укажите телефон"],
       trim: true,
     },
-    productCategory: {
-      type: Array,
-      required: [true, "Пожалуйста, укажите категорию продуктов"],
-    },
     deliveryAddress: [
       {
         address: {
           type: String,
           required: [true, "Пожалуйста, укажите адрес доставки"],
+        },
+        info: {
+          type: String,
         },
         deliveryTime: [
           {
@@ -55,10 +54,6 @@ const ConsumerSchema = new mongoose.Schema(
         ],
       },
     ],
-    deliveryMethod: {
-      type: Array,
-      required: [true, "Пожалуйста, укажите метод доставки"],
-    },
     code: {
       type: Number,
     },

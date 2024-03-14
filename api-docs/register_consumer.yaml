@@ -1,0 +1,137 @@
+paths:
+  /api/auth/consumer/register:
+    post:
+      summary: Регистрация общепита
+      tags:
+        - Регистрация/Верификация/Авторизация общепита
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - phone
+                - companyName
+                - inn
+                - deliveryAddress
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Электронная почта общепита.
+                password:
+                  type: string
+                  description: Пароль для входа.
+                phone:
+                  type: string
+                  description: Контактный телефон.
+                companyName:
+                  type: string
+                  description: Название компании общепита.
+                inn:
+                  type: integer
+                  format: int64
+                  description: ИНН компании общепита.
+                productCategory:
+                  type: array
+                  items:
+                    type: string
+                  description: Категории продуктов.
+                deliveryAddress:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                        description: Адрес доставки.
+                      info:
+                        type: string
+                        description: Информация по приемке.
+                      deliveryTime:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            day:
+                              type: string
+                              description: День доставки.
+                            from:
+                              type: string
+                              description: Время начала доставки.
+                            to:
+                              type: string
+                              description: Время окончания доставки.
+                  description: Адреса и временные рамки доставки.
+                code:
+                  type: integer
+                  format: int32
+                  description: Код для верификации (необязательный).
+                isVerificated:
+                  type: boolean
+                  default: false
+                  description: Статус верификации (по умолчанию false).
+      responses:
+        "201":
+          description: Потребитель успешно зарегистрирован.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Consumer"
+        "400":
+          description: Ошибка запроса. Не все обязательные поля заполнены или электронная почта в некорректном формате.
+        "500":
+          description: Внутренняя ошибка сервера.
+components:
+  schemas:
+    Consumer:
+      type: object
+      required:
+        - email
+        - password
+        - phone
+        - companyName
+        - inn
+        - deliveryAddress
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        phone:
+          type: string
+        companyName:
+          type: string
+        inn:
+          type: integer
+          format: int64
+        deliveryAddress:
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                type: string
+              info:
+                type: string
+              deliveryTime:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    day:
+                      type: string
+                    from:
+                      type: string
+                    to:
+                      type: string
+        code:
+          type: integer
+          format: int32
+        isVerificated:
+          type: boolean
+          default: false
