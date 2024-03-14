@@ -1,0 +1,135 @@
+/* Основной фон и текст */
+.swagger-ui {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Заголовки */
+.swagger-ui .title,
+.swagger-ui .opblock-tag,
+.swagger-ui .model-title {
+  color: #fff;
+}
+
+/* Панель информации */
+.swagger-ui .info {
+  border-color: #4a4a4a;
+}
+
+.swagger-ui .info .title,
+.swagger-ui .info .version {
+  color: #fff;
+}
+
+.swagger-ui .info .description {
+  color: #bbb;
+}
+
+/* Фон и текст операций */
+.swagger-ui .opblock {
+  background-color: #4a4a4a;
+  border-color: #4a4a4a;
+}
+
+.swagger-ui .opblock-summary {
+  color: #fff;
+}
+
+/* Параметры запроса */
+.swagger-ui .parameters {
+  background-color: #4a4a4a;
+}
+
+.swagger-ui .parameters .parameter__name,
+.swagger-ui .parameters .parameter__type {
+  color: #fff;
+}
+
+.swagger-ui .parameters .parameter__in {
+  color: #bbb;
+}
+
+/* Ответы */
+.swagger-ui .responses {
+  background-color: #4a4a4a;
+}
+
+.swagger-ui .responses .response .response-col_description {
+  color: #bbb;
+}
+
+/* Панель авторизации */
+.swagger-ui .auth-container {
+  background-color: #4a4a4a;
+}
+
+.swagger-ui .auth-container .auth-btn-wrapper .btn.modal-btn.auth {
+  background-color: #555;
+  border-color: #555;
+}
+
+.swagger-ui .auth-container .auth-btn-wrapper .btn.modal-btn.auth:hover {
+  background-color: #666;
+}
+
+/* Окно модальное и всплывающие подсказки */
+.swagger-ui .dialog-ux {
+  background-color: #555;
+}
+
+.swagger-ui .dialog-ux .dialog-ux-header {
+  background-color: #666;
+}
+
+.swagger-ui .dialog-ux .dialog-ux-content {
+  background-color: #555;
+}
+
+.swagger-ui .tooltip-inner {
+  background-color: #555;
+  color: #fff;
+}
+
+/* Кнопки */
+.swagger-ui .btn {
+  background-color: #555;
+  border-color: #555;
+  color: #fff;
+}
+
+.swagger-ui .btn:hover {
+  background-color: #666;
+  border-color: #666;
+}
+
+/* Изменения в полях ввода и выборе */
+.swagger-ui .opblock .opblock-section .opblock-section-header .try-out__btn,
+.swagger-ui .opblock .opblock-section .opblock-section-header .btn-cancel,
+.swagger-ui input,
+.swagger-ui select {
+  background-color: #555;
+  color: #fff;
+  border: 1px solid #777;
+}
+
+.swagger-ui input::placeholder,
+.swagger-ui select::placeholder {
+  color: #999;
+}
+
+/* Подсветка синтаксиса */
+.swagger-ui .microlight {
+  background-color: #4a4a4a;
+  color: #fff;
+}
+
+/* Ссылки */
+.swagger-ui a {
+  color: #b3e5fc;
+}
+
+/* Подвал */
+.swagger-ui .footer {
+  background-color: #333;
+  color: #fff;
+}

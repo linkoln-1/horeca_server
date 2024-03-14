@@ -14,6 +14,12 @@ import authConsumerRouter from "./routes/authConsumerRoutes.js";
 import providerRouter from "./routes/providerRoutes.js";
 import consumerRouter from "./routes/consumerRoutes.js";
 import { swaggerSpec } from "./docs/swaggerDef.js";
+// import fs from "fs";
+
+// const customCss = fs.readFileSync(
+//   process.cwd() + "/style/custom-swagger-style.css",
+//   "utf8"
+// );
 
 const app = express();
 
@@ -22,6 +28,11 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// app.use(
+//   "/api-docs",
+//   swaggerUi.serve,
+//   swaggerUi.setup(swaggerSpec, { customCss })
+// );
 
 app.get("/", (req, res) => {
   res.json({ msg: "welcom" });
