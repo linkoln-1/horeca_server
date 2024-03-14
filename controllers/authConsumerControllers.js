@@ -5,7 +5,7 @@ import {
 } from "../errors/index-error.js";
 import Consumer from "../models/Consumer.js";
 import { sendVerificationEmail } from "../utils/emailVerification.js";
-import { sendRemindEmail } from "../utils/emailReminder.js";
+import { sendRemindEmail } from "../utils/emailReminder2.js";
 import cryptoRandomString from "crypto-random-string";
 
 const registerConsumer = async (req, res) => {
@@ -16,7 +16,6 @@ const registerConsumer = async (req, res) => {
       phone,
       companyName,
       inn,
-      productCategory,
       deliveryAddress,
       deliveryTime,
     } = req.body;
@@ -42,7 +41,6 @@ const registerConsumer = async (req, res) => {
       password,
       phone,
       companyName,
-      productCategory,
       deliveryAddress,
       deliveryTime,
       inn,
@@ -58,7 +56,6 @@ const registerConsumer = async (req, res) => {
         email: consumer.email,
         phone: consumer.phone,
         companyName: consumer.companyName,
-        productCategory: consumer.productCategory,
         deliveryAddress: consumer.deliveryAddress,
         deliveryTime: consumer.deliveryTime,
         inn: consumer.inn,
@@ -101,7 +98,6 @@ const loginConsumer = async (req, res) => {
       email: consumer.email,
       phone: consumer.phone,
       companyName: consumer.companyName,
-      productCategory: consumer.productCategory,
       deliveryAddress: consumer.deliveryAddress,
       deliveryTime: consumer.deliveryTime,
       isVerificated: consumer.isVerificated,
@@ -113,40 +109,79 @@ const loginConsumer = async (req, res) => {
 };
 
 const remindConsumer = async (req, res) => {
-  // try {
-  const { email } = req.body;
-  if (!email) {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: "Укажите все данные",
+      });
+    }
+
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(email)) {
+      throw new BadRequestError("Некорректный формат электронной почты");
+    }
+
+    const consumer = await Consumer.findOne({ email });
+    if (!consumer) {
+      return res.status(404).json({
+        message: "Указанный Email не зарегистрирован",
+      });
+    }
+
+    const { codeRecovery } = await sendRemindEmail(email);
+
+    consumer.codeRecovery = codeRecovery;
+
+    await consumer.save();
+    return res.status(StatusCodes.CREATED).json({
+      message: "Новый пароль сгенерирован и отправлен Вам на почту",
+    });
+  } catch (error) {
+    console.error(error);
     return res.status(StatusCodes.BAD_REQUEST).json({
-      message: "Укажите все данные",
+      message: "Не корректные данные",
     });
   }
+};
 
-  const emailRegex = /\S+@\S+\.\S+/;
-  if (!emailRegex.test(email)) {
-    throw new BadRequestError("Некорректный формат электронной почты");
+const changePassword = async (req, res) => {
+  const { email, newPassword, code } = req.body;
+  if (!email || !newPassword || !code) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Укажите Email и пароль",
+    });
   }
 
   const consumer = await Consumer.findOne({ email });
   if (!consumer) {
-    return res.status(404).json({
-      message: "Указанный Email не зарегистрирован",
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Не корректные данные",
     });
   }
 
-  const { newPassword } = await sendRemindEmail(email);
+  if (consumer.codeRecovery !== code) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Не корректные данные",
+    });
+  }
 
   consumer.password = newPassword;
   await consumer.save();
-  return res.status(StatusCodes.CREATED).json({
-    message: "Новый пароль сгенерирован и отправлен Вам на почту",
+  const token = consumer.createJWT();
+
+  res.status(StatusCodes.CREATED).json({
+    consumer: {
+      email: consumer.email,
+      phone: consumer.phone,
+      companyName: consumer.companyName,
+      deliveryAddress: consumer.deliveryAddress,
+      deliveryTime: consumer.deliveryTime,
+      inn: consumer.inn,
+      _id: consumer._id,
+    },
+    token,
   });
-  // } catch (error) {
-  //   console.error(error);
-  //   return res.status(StatusCodes.BAD_REQUEST).json({
-  //     message: "Не корректные данные",
-  //   });
-  // }
 };
 
-export { registerConsumer, loginConsumer, remindConsumer };
-
+export { registerConsumer, loginConsumer, remindConsumer, changePassword };

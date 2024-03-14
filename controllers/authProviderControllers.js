@@ -5,7 +5,7 @@ import {
 } from "../errors/index-error.js";
 import Provider from "../models/Provider.js";
 import { sendVerificationEmail } from "../utils/emailVerification.js";
-import { sendRemindEmail } from "../utils/emailReminder.js";
+import { sendRemindEmail } from "../utils/emailReminder2.js";
 import cryptoRandomString from "crypto-random-string";
 
 const registerProvider = async (req, res) => {
@@ -73,7 +73,6 @@ const registerProvider = async (req, res) => {
 };
 
 const loginProvider = async (req, res) => {
-  // console.log(req.body);
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(StatusCodes.BAD_REQUEST).json({
@@ -133,12 +132,13 @@ const remindProvider = async (req, res) => {
       });
     }
 
-    const { newPassword } = await sendRemindEmail(email);
+    const { codeRecovery } = await sendRemindEmail(email);
 
-    provider.password = newPassword;
+    provider.codeRecovery = codeRecovery;
+
     await provider.save();
     return res.status(StatusCodes.CREATED).json({
-      message: "Новый пароль сгенерирован и отправлен Вам на почту",
+      message: "Код для подтверждения отправлен на почту",
     });
   } catch (error) {
     console.error(error);
@@ -148,6 +148,45 @@ const remindProvider = async (req, res) => {
   }
 };
 
-export { registerProvider, loginProvider, remindProvider };
+const changePassword = async (req, res) => {
+  const { email, newPassword, code } = req.body;
+  if (!email || !newPassword || !code) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Укажите Email и пароль",
+    });
+  }
 
+  const provider = await Provider.findOne({ email });
+  if (!provider) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Не корректные данные",
+    });
+  }
 
+  if (provider.codeRecovery !== code) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Не корректные данные",
+    });
+  }
+
+  provider.password = newPassword;
+  await provider.save();
+  const token = provider.createJWT();
+
+  res.status(StatusCodes.CREATED).json({
+    provider: {
+      email: provider.email,
+      phone: provider.phone,
+      companyName: provider.companyName,
+      productCategory: provider.productCategory,
+      minOrder: provider.minOrder,
+      deliveryMethod: provider.deliveryMethod,
+      isVerificated: provider.isVerificated,
+      inn: provider.inn,
+      _id: provider._id,
+    },
+    token,
+  });
+};
+
+export { registerProvider, loginProvider, remindProvider, changePassword };

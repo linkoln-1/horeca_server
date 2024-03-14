@@ -15,9 +15,9 @@ const ProviderSchema = new mongoose.Schema(
       unique: true,
     },
     phone: {
-       type: String,
-       required: [true, "Пожалуйста, укажите телефон"],
-       trim: true,
+      type: String,
+      required: [true, "Пожалуйста, укажите телефон"],
+      trim: true,
     },
     companyName: {
       type: String,
@@ -47,6 +47,9 @@ const ProviderSchema = new mongoose.Schema(
     code: {
       type: Number,
     },
+    codeRecovery: {
+      type: Number,
+    },
     isVerificated: {
       type: Boolean,
       default: false,
@@ -73,5 +76,3 @@ ProviderSchema.methods.comparePassword = async function (candidatePassword) {
 };
 
 export default mongoose.model("Provider", ProviderSchema);
-
-

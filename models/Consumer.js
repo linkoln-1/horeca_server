@@ -57,6 +57,9 @@ const ConsumerSchema = new mongoose.Schema(
     code: {
       type: Number,
     },
+    codeRecovery: {
+      type: Number,
+    },
     isVerificated: {
       type: Boolean,
       default: false,
