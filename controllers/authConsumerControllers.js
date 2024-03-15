@@ -79,45 +79,44 @@ const registerConsumer = async (req, res) => {
   }
 };
 
-const loginConsumer = async (req, res) => {
-  // console.log(req.body);
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(StatusCodes.BAD_REQUEST).json({
-      message: "Укажите Email и пароль",
-    });
-  }
+// const loginConsumer = async (req, res) => {
+//   const { email, password } = req.body;
+//   if (!email || !password) {
+//     return res.status(StatusCodes.BAD_REQUEST).json({
+//       message: "Укажите Email и пароль",
+//     });
+//   }
 
-  const consumer = await Consumer.findOne({ email });
-  if (!consumer) {
-    return res.status(StatusCodes.BAD_REQUEST).json({
-      message: "Не корректные данные",
-    });
-  }
+//   const consumer = await Consumer.findOne({ email });
+//   if (!consumer) {
+//     return res.status(StatusCodes.BAD_REQUEST).json({
+//       message: "Не корректные данные",
+//     });
+//   }
 
-  const isPasswordCorrect = await consumer.comparePassword(password);
-  if (!isPasswordCorrect) {
-    return res.status(StatusCodes.UNAUTHORIZED).json({
-      message: "Не корректные данные",
-    });
-  }
+//   const isPasswordCorrect = await consumer.comparePassword(password);
+//   if (!isPasswordCorrect) {
+//     return res.status(StatusCodes.UNAUTHORIZED).json({
+//       message: "Не корректные данные",
+//     });
+//   }
 
-  const token = consumer.createJWT();
+//   const token = consumer.createJWT();
 
-  res.status(StatusCodes.OK).json({
-    consumer: {
-      email: consumer.email,
-      phone: consumer.phone,
-      companyName: consumer.companyName,
-      deliveryAddress: consumer.deliveryAddress,
-      deliveryTime: consumer.deliveryTime,
-      isVerificated: consumer.isVerificated,
-      inn: consumer.inn,
-      _id: consumer._id,
-    },
-    token,
-  });
-};
+//   res.status(StatusCodes.OK).json({
+//     consumer: {
+//       email: consumer.email,
+//       phone: consumer.phone,
+//       companyName: consumer.companyName,
+//       deliveryAddress: consumer.deliveryAddress,
+//       deliveryTime: consumer.deliveryTime,
+//       isVerificated: consumer.isVerificated,
+//       inn: consumer.inn,
+//       _id: consumer._id,
+//     },
+//     token,
+//   });
+// };
 
 const remindConsumer = async (req, res) => {
   try {
@@ -195,4 +194,4 @@ const changePassword = async (req, res) => {
   });
 };
 
-export { registerConsumer, loginConsumer, remindConsumer, changePassword };
+export { registerConsumer, remindConsumer, changePassword };

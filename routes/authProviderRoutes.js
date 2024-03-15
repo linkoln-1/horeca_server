@@ -2,13 +2,13 @@ import express from "express";
 const router = express.Router();
 import {
   registerProvider,
-  loginProvider,
+  // loginProvider,
   remindProvider,
   changePassword,
 } from "../controllers/authProviderControllers.js";
 
 router.route("/register").post(registerProvider);
-router.route("/login").post(loginProvider);
+// router.route("/login").post(loginProvider);
 router.route("/remind").post(remindProvider);
 router.route("/changePassword").post(changePassword);
 

@@ -1,73 +1,73 @@
-paths:
-  /api/auth/provider/login:
-    post:
-      summary: Авторизация поставщика
-      tags:
-        - Регистрация/Верификация/Авторизация поставщика
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - email
-                - password
-              properties:
-                email:
-                  type: string
-                  format: email
-                  description: Электронная почта поставщика.
-                password:
-                  type: string
-                  format: password
-                  description: Пароль поставщика.
-      responses:
-        "201":
-          description: Провайдер успешно авторизован. Возвращает информацию о провайдере и токен доступа.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  provider:
-                    type: object
-                    properties:
-                      email:
-                        type: string
-                      companyName:
-                        type: string
-                      productCategory:
-                        type: string
-                      minOrder:
-                        type: string
-                      deliveryMethod:
-                        type: string
-                      _id:
-                        type: string
-                      inn:
-                        type: string
-                      isVerificated:
-                        type: boolean
-                  token:
-                    type: string
-        "400":
-          description: Неверный запрос. Email или пароль не указаны.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "401":
-          description: Неавторизован. Некорректные учетные данные.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        "500":
-          description: Внутренняя ошибка сервера.
+# paths:
+#   /api/auth/provider/login:
+#     post:
+#       summary: Авторизация поставщика
+#       tags:
+#         - Регистрация/Верификация/Авторизация поставщика
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               type: object
+#               required:
+#                 - email
+#                 - password
+#               properties:
+#                 email:
+#                   type: string
+#                   format: email
+#                   description: Электронная почта поставщика.
+#                 password:
+#                   type: string
+#                   format: password
+#                   description: Пароль поставщика.
+#       responses:
+#         "201":
+#           description: Провайдер успешно авторизован. Возвращает информацию о провайдере и токен доступа.
+#           content:
+#             application/json:
+#               schema:
+#                 type: object
+#                 properties:
+#                   provider:
+#                     type: object
+#                     properties:
+#                       email:
+#                         type: string
+#                       companyName:
+#                         type: string
+#                       productCategory:
+#                         type: string
+#                       minOrder:
+#                         type: string
+#                       deliveryMethod:
+#                         type: string
+#                       _id:
+#                         type: string
+#                       inn:
+#                         type: string
+#                       isVerificated:
+#                         type: boolean
+#                   token:
+#                     type: string
+#         "400":
+#           description: Неверный запрос. Email или пароль не указаны.
+#           content:
+#             application/json:
+#               schema:
+#                 type: object
+#                 properties:
+#                   message:
+#                     type: string
+#         "401":
+#           description: Неавторизован. Некорректные учетные данные.
+#           content:
+#             application/json:
+#               schema:
+#                 type: object
+#                 properties:
+#                   message:
+#                     type: string
+#         "500":
+#           description: Внутренняя ошибка сервера.

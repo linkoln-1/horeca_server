@@ -83,44 +83,44 @@ const registerProvider = async (req, res) => {
   }
 };
 
-const loginProvider = async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(StatusCodes.BAD_REQUEST).json({
-      message: "Укажите Email и пароль",
-    });
-  }
+// const loginProvider = async (req, res) => {
+//   const { email, password } = req.body;
+//   if (!email || !password) {
+//     return res.status(StatusCodes.BAD_REQUEST).json({
+//       message: "Укажите Email и пароль",
+//     });
+//   }
 
-  const provider = await Provider.findOne({ email });
-  if (!provider) {
-    return res.status(StatusCodes.BAD_REQUEST).json({
-      message: "Не корректные данные",
-    });
-  }
+//   const provider = await Provider.findOne({ email });
+//   if (!provider) {
+//     return res.status(StatusCodes.BAD_REQUEST).json({
+//       message: "Не корректные данные",
+//     });
+//   }
 
-  const isPasswordCorrect = await provider.comparePassword(password);
-  if (!isPasswordCorrect) {
-    return res.status(StatusCodes.UNAUTHORIZED).json({
-      message: "Не корректные данные",
-    });
-  }
+//   const isPasswordCorrect = await provider.comparePassword(password);
+//   if (!isPasswordCorrect) {
+//     return res.status(StatusCodes.UNAUTHORIZED).json({
+//       message: "Не корректные данные",
+//     });
+//   }
 
-  const token = provider.createJWT();
+//   const token = provider.createJWT();
 
-  res.status(StatusCodes.OK).json({
-    provider: {
-      email: provider.email,
-      phone: provider.phone,
-      companyName: provider.companyName,
-      productCategory: provider.productCategory,
-      minOrder: provider.minOrder,
-      deliveryMethod: provider.deliveryMethod,
-      _id: provider._id,
-      inn: provider.inn,
-    },
-    token,
-  });
-};
+//   res.status(StatusCodes.OK).json({
+//     provider: {
+//       email: provider.email,
+//       phone: provider.phone,
+//       companyName: provider.companyName,
+//       productCategory: provider.productCategory,
+//       minOrder: provider.minOrder,
+//       deliveryMethod: provider.deliveryMethod,
+//       _id: provider._id,
+//       inn: provider.inn,
+//     },
+//     token,
+//   });
+// };
 
 const remindProvider = async (req, res) => {
   try {
@@ -200,4 +200,4 @@ const changePassword = async (req, res) => {
   });
 };
 
-export { registerProvider, loginProvider, remindProvider, changePassword };
+export { registerProvider, remindProvider, changePassword };
