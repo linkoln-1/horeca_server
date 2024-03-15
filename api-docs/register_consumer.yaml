@@ -35,11 +35,6 @@ paths:
                   type: integer
                   format: int64
                   description: ИНН компании общепита.
-                productCategory:
-                  type: array
-                  items:
-                    type: string
-                  description: Категории продуктов.
                 deliveryAddress:
                   type: array
                   items:

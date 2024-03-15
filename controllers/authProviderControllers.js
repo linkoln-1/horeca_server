@@ -4,6 +4,7 @@ import {
   UnAuthenticatedError,
 } from "../errors/index-error.js";
 import Provider from "../models/Provider.js";
+import Consumer from "../models/Consumer.js";
 import { sendVerificationEmail } from "../utils/emailVerification.js";
 import { sendRemindEmail } from "../utils/emailReminder2.js";
 import cryptoRandomString from "crypto-random-string";
@@ -30,9 +31,19 @@ const registerProvider = async (req, res) => {
       throw new BadRequestError("Некорректный формат электронной почты");
     }
 
+    const innAlreadyExist = await Provider.findOne({ inn });
+    if (innAlreadyExist) {
+      throw new BadRequestError("ИНН уже используется");
+    }
+
     const providerAlreadyExist = await Provider.findOne({ email });
     if (providerAlreadyExist) {
       throw new BadRequestError("Email уже используется");
+    }
+
+    const consumerAlreadyExist = await Consumer.findOne({ inn });
+    if (consumerAlreadyExist) {
+      throw new BadRequestError("Данный ИНН уже зарегистрирован у общепита");
     }
 
     const code = cryptoRandomString({ length: 6, type: "numeric" });

@@ -4,68 +4,79 @@ import {
   UnAuthenticatedError,
 } from "../errors/index-error.js";
 import Consumer from "../models/Consumer.js";
+import Provider from "../models/Provider.js";
 import { sendVerificationEmail } from "../utils/emailVerification.js";
 import { sendRemindEmail } from "../utils/emailReminder2.js";
 import cryptoRandomString from "crypto-random-string";
 
 const registerConsumer = async (req, res) => {
-  // try {
-  const {
-    email,
-    password,
-    phone,
-    companyName,
-    inn,
-    deliveryAddress,
-    deliveryTime,
-  } = req.body;
+  try {
+    const {
+      email,
+      password,
+      phone,
+      companyName,
+      inn,
+      deliveryAddress,
+      deliveryTime,
+    } = req.body;
 
-  if (!email || !password) {
-    throw new BadRequestError("Введите все значения");
+    if (!email || !password) {
+      throw new BadRequestError("Введите все значения");
+    }
+
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(email)) {
+      throw new BadRequestError("Некорректный формат электронной почты");
+    }
+
+    const innAlreadyExist = await Consumer.findOne({ inn });
+    if (innAlreadyExist) {
+      throw new BadRequestError("ИНН уже используется");
+    }
+
+    const consumerAlreadyExist = await Consumer.findOne({ email });
+    if (consumerAlreadyExist) {
+      throw new BadRequestError("Email уже используется");
+    }
+
+    const providerAlreadyExist = await Provider.findOne({ inn });
+    if (providerAlreadyExist) {
+      throw new BadRequestError("Данный ИНН уже зарегистрирован у поставщика");
+    }
+
+    const code = cryptoRandomString({ length: 6, type: "numeric" });
+
+    const consumer = await Consumer.create({
+      email,
+      password,
+      phone,
+      companyName,
+      deliveryAddress,
+      deliveryTime,
+      inn,
+      code,
+    });
+
+    const token = consumer.createJWT();
+
+    await sendVerificationEmail(consumer.email, consumer.code);
+
+    res.status(StatusCodes.CREATED).json({
+      consumer: {
+        email: consumer.email,
+        phone: consumer.phone,
+        companyName: consumer.companyName,
+        deliveryAddress: consumer.deliveryAddress,
+        deliveryTime: consumer.deliveryTime,
+        inn: consumer.inn,
+        _id: consumer._id,
+      },
+      token,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
   }
-
-  const emailRegex = /\S+@\S+\.\S+/;
-  if (!emailRegex.test(email)) {
-    throw new BadRequestError("Некорректный формат электронной почты");
-  }
-
-  const consumerAlreadyExist = await Consumer.findOne({ email });
-  if (consumerAlreadyExist) {
-    throw new BadRequestError("Email уже используется");
-  }
-
-  const code = cryptoRandomString({ length: 6, type: "numeric" });
-
-  const consumer = await Consumer.create({
-    email,
-    password,
-    phone,
-    companyName,
-    deliveryAddress,
-    deliveryTime,
-    inn,
-    code,
-  });
-
-  const token = consumer.createJWT();
-
-  await sendVerificationEmail(consumer.email, consumer.code);
-
-  res.status(StatusCodes.CREATED).json({
-    consumer: {
-      email: consumer.email,
-      phone: consumer.phone,
-      companyName: consumer.companyName,
-      deliveryAddress: consumer.deliveryAddress,
-      deliveryTime: consumer.deliveryTime,
-      inn: consumer.inn,
-      _id: consumer._id,
-    },
-    token,
-  });
-  // } catch (error) {
-  //   res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
-  // }
 };
 
 const loginConsumer = async (req, res) => {
