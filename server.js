@@ -1,3 +1,15 @@
+process.on("uncaughtException", (err) => {
+  console.error("Неперехваченное исключение:", err);
+  process.exit(1);
+});
+process.on("unhandledRejection", (reason, promise) => {
+  console.error(
+    "Неперехваченный отклонённый промис:",
+    promise,
+    "причина:",
+    reason
+  );
+});
 import * as dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";

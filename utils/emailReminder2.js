@@ -24,7 +24,8 @@ const sendRemindEmail = async (email) => {
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
-        res.status(StatusCodes.OK).json(error);
+        // res.status(StatusCodes.OK).json(error);
+        reject(error);
       } else {
         console.log("Email sent: " + info.response);
         resolve({ codeRecovery: codeRecovery, info: info.response });
