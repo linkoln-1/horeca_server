@@ -27,6 +27,8 @@ import providerRouter from "./routes/providerRoutes.js";
 import consumerRouter from "./routes/consumerRoutes.js";
 import authRouter from "./routes/authRouter.js";
 import { swaggerSpec } from "./docs/swaggerDef.js";
+import path from "path";
+
 // import fs from "fs";
 
 // const customCss = fs.readFileSync(
@@ -39,13 +41,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+app.use("/uploads/files", express.static(path.join("uploads", "files")));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-// app.use(
-//   "/api-docs",
-//   swaggerUi.serve,
-//   swaggerUi.setup(swaggerSpec, { customCss })
-// );
 
 app.get("/", (req, res) => {
   res.json({ msg: "welcom" });
