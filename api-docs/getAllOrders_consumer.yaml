@@ -1,0 +1,41 @@
+paths:
+  /api/consumer/allOrders/{consumerId}:
+    get:
+      summary: Получение всех заявок по определенному общепиту
+      tags:
+        - Заявки
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: consumerId
+          required: true
+          schema:
+            type: string
+          description: Идентификатор потребителя
+      requestBody:
+        required: false
+      responses:
+        "200":
+          description: Успешное получение списка заявок
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orders:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Order"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Order:
+      type: object
+      properties:
+        consumerId:
+          type: string
+          description: Идентификатор потребителя

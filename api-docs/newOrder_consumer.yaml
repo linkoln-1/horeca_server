@@ -22,6 +22,9 @@ paths:
                 orderName:
                   type: string
                   description: Название заявки
+                consumerId:
+                  type: string
+                  description: consumer id
                 day:
                   type: string
                   description: Крайний день доставки

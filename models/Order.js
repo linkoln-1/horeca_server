@@ -7,13 +7,21 @@ const OrderSchema = new mongoose.Schema(
       required: [true, "Пожалуйста, укажите название заявки"],
       trim: true,
     },
+    consumerId: {
+      type: String,
+      required: [true, "Что то пошло не так, попробуйте позже"],
+    },
+    active: {
+      type: Boolean,
+      default: true,
+    },
     day: {
       type: String,
       required: [true, "Пожалуйста, укажите крайний день доставки"],
     },
     time: {
       type: String,
-      required: [true, "Пожалуйста, укажите =крайнее время доставки"],
+      required: [true, "Пожалуйста, укажите крайнее время доставки"],
     },
     acceptTime: {
       type: String,

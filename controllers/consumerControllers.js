@@ -55,8 +55,15 @@ const verificationConsumer = async (req, res) => {
 };
 
 const newOrder = async (req, res) => {
-  const { orderName, day, time, acceptTime, description, categories } =
-    req.body;
+  const {
+    orderName,
+    day,
+    time,
+    acceptTime,
+    description,
+    categories,
+    consumerId,
+  } = req.body;
 
   if (
     !orderName ||
@@ -71,10 +78,10 @@ const newOrder = async (req, res) => {
 
   let filePaths = [];
   if (req.files) {
-    // const uploadPromises = req.files.map((file) => {
-    //   const fileContent = fs.readFileSync(file.path);
-    const uploadPromises = req.files.map(async (file) => {
-      const fileContent = await fs.readFile(file.path);
+    const uploadPromises = req.files.map((file) => {
+      const fileContent = fs.readFileSync(file.path);
+      // const uploadPromises = req.files.map(async (file) => {
+      //   const fileContent = await fs.readFile(file.path);
 
       const params = {
         Bucket: bucketName,
@@ -106,6 +113,7 @@ const newOrder = async (req, res) => {
         acceptTime,
         description,
         categories,
+        consumerId,
         images: filePaths,
       });
       res.status(StatusCodes.CREATED).json({ order });
@@ -120,6 +128,7 @@ const newOrder = async (req, res) => {
         time,
         acceptTime,
         description,
+        consumerId,
         categories,
       });
       res.status(StatusCodes.CREATED).json({ order });
@@ -128,4 +137,11 @@ const newOrder = async (req, res) => {
     }
   }
 };
-export { verificationConsumer, newOrder };
+
+const getAllOrdersByConsumerId = async (req, res) => {
+  const orders = await Order.find({ consumerId: req.params.consumerId });
+  console.log(orders);
+  res.status(StatusCodes.OK).json({ orders });
+};
+
+export { verificationConsumer, newOrder, getAllOrdersByConsumerId };
