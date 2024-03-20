@@ -1,0 +1,71 @@
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /api/consumer/neworder:
+    post:
+      summary: Создание новой заявки
+      tags:
+        - Заявки
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orderName:
+                  type: string
+                  description: Название заявки
+                day:
+                  type: string
+                  description: Крайний день доставки
+                time:
+                  type: string
+                  description: Крайнее время доставки
+                acceptTime:
+                  type: string
+                  description: Время до которого принимается доставка
+                description:
+                  type: string
+                  description: Описание заявки
+                images:
+                  type: array
+                  items:
+                    type: string
+                categories:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      categoryName:
+                        type: string
+                        description: Название категории
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            productName:
+                              type: string
+                              description: Название продукта
+                            amount:
+                              type: number
+                              description: Количество
+                            measure:
+                              type: string
+                              description: Единица измерения
+      responses:
+        "200":
+          description: Заявка успешно создана
+        "400":
+          description: Неверный запрос
+        "401":
+          description: Не авторизован
+        "500":
+          description: Ошибка сервера

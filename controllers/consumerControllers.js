@@ -55,25 +55,49 @@ const verificationConsumer = async (req, res) => {
 };
 
 const newOrder = async (req, res) => {
-  console.log(req.body);
-  // console.log(req.file);
   const { orderName, day, time, acceptTime, description, categories } =
     req.body;
 
-  // if (
-  //   !orderName ||
-  //   !day ||
-  //   !acceptTime ||
-  //   !description ||
-  //   !categories ||
-  //   !time
-  // ) {
-  //   return res.status(400).json({ message: "Все поля должны быть заполнены." });
-  // }
+  if (
+    !orderName ||
+    !day ||
+    !acceptTime ||
+    !description ||
+    !categories ||
+    !time
+  ) {
+    return res.status(400).json({ message: "Все поля должны быть заполнены." });
+  }
 
   let filePaths = [];
   if (req.files) {
-    filePaths = req.files.map((file) => file.path);
+    // const uploadPromises = req.files.map((file) => {
+    //   const fileContent = fs.readFileSync(file.path);
+    const uploadPromises = req.files.map(async (file) => {
+      const fileContent = await fs.readFile(file.path);
+
+      const params = {
+        Bucket: bucketName,
+        Key: `${file.path}`,
+        Body: fileContent,
+        ACL: "public-read",
+      };
+      return s3
+        .upload(params)
+        .promise()
+        .then((data) => {
+          return data.Location;
+        });
+    });
+
+    try {
+      filePaths = await Promise.all(uploadPromises);
+    } catch (error) {
+      return res
+        .status(500)
+        .send("Ошибка при загрузке файлов: " + error.message);
+    }
+
     try {
       const order = await Order.create({
         orderName,
@@ -88,7 +112,6 @@ const newOrder = async (req, res) => {
     } catch (error) {
       res.status(500).send(error.message);
     }
-    console.log(filePaths);
   } else {
     try {
       const order = await Order.create({
