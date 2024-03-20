@@ -26,8 +26,11 @@ import authConsumerRouter from "./routes/authConsumerRoutes.js";
 import providerRouter from "./routes/providerRoutes.js";
 import consumerRouter from "./routes/consumerRoutes.js";
 import authRouter from "./routes/authRouter.js";
+import extraRouter from "./routes/extraRouter.js";
+
 import { swaggerSpec } from "./docs/swaggerDef.js";
 import path from "path";
+import { nanoid } from "nanoid";
 
 // import fs from "fs";
 
@@ -52,6 +55,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth/provider", authProviderRouter);
 app.use("/api/auth/consumer", authConsumerRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/extra", extraRouter);
 app.use("/api/provider", authProvider, providerRouter);
 app.use("/api/consumer", authConsumer, consumerRouter);
 
