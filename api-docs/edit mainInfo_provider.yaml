@@ -1,0 +1,85 @@
+paths:
+  /api/provider/edit_main_info:
+    post:
+      summary: Изменение основной информации поставщика
+      tags:
+        - Изменение данных в личном кабинете
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                companyName:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                providerId:
+                  type: string
+              required:
+                - providerId
+      responses:
+        "201":
+          description: Основные данные изменены успешно.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  provider:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                      companyName:
+                        type: string
+                      productCategory:
+                        type: string
+                      minOrder:
+                        type: string
+                      deliveryMethod:
+                        type: string
+                      _id:
+                        type: string
+                      inn:
+                        type: string
+                      isVerificated:
+                        type: boolean
+                  token:
+                    type: string
+        "400":
+          description: Неверный запрос, отсутствуют или некорректные параметры
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Внутренняя ошибка сервера.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    BadRequest:
+      description: Неверный запрос, отсутствуют или некорректные параметры
+    InternalServerError:
+      description: Внутренняя ошибка сервера

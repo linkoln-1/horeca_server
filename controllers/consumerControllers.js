@@ -145,11 +145,19 @@ const getAllOrdersByConsumerId = async (req, res) => {
 };
 
 const editMainInfo = async (req, res) => {
-  console.log(req.body);
   const { phone, companyName, email, password, consumerId } = req.body;
   if (!consumerId) {
     return res.status(StatusCodes.BAD_REQUEST).json({
-      message: "Укажите Email и пароль",
+      message: "Повторите позже",
+    });
+  }
+
+  const emailProviderExist = await Provider.find({ email: email });
+  const emailConsumerExist = await Provider.find({ email: email });
+
+  if (emailProviderExist || emailConsumerExist) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Email уже используется",
     });
   }
 
