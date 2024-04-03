@@ -1,0 +1,83 @@
+paths:
+  /api/consumer/edit_main_info:
+    post:
+      summary: Изменение основной информации общепита
+      tags:
+        - Изменение данных в личном кабинете
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                companyName:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                consumerId:
+                  type: string
+              required:
+                - consumerId
+      responses:
+        "201":
+          description: Основные данные изменены успешно.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  consumer:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                      phone:
+                        type: string
+                      companyName:
+                        type: string
+                      deliveryAddress:
+                        type: string
+                      deliveryTime:
+                        type: string
+                      inn:
+                        type: string
+                      _id:
+                        type: string
+                  token:
+                    type: string
+        "400":
+          description: Неверный запрос, отсутствуют или некорректные параметры
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "500":
+          description: Внутренняя ошибка сервера.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    BadRequest:
+      description: Неверный запрос, отсутствуют или некорректные параметры
+    InternalServerError:
+      description: Внутренняя ошибка сервера

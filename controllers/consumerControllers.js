@@ -144,4 +144,53 @@ const getAllOrdersByConsumerId = async (req, res) => {
   res.status(StatusCodes.OK).json({ orders });
 };
 
-export { verificationConsumer, newOrder, getAllOrdersByConsumerId };
+const editMainInfo = async (req, res) => {
+  console.log(req.body);
+  const { phone, companyName, email, password, consumerId } = req.body;
+  if (!consumerId) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Укажите Email и пароль",
+    });
+  }
+
+  try {
+    const consumer = await Consumer.findById(consumerId);
+    if (!consumer) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: "Повторите позже",
+      });
+    }
+
+    consumer.phone = phone;
+    consumer.companyName = companyName;
+    consumer.email = email;
+    consumer.password = password;
+
+    await consumer.save();
+    const token = consumer.createJWT();
+
+    res.status(StatusCodes.CREATED).json({
+      consumer: {
+        email: consumer.email,
+        phone: consumer.phone,
+        companyName: consumer.companyName,
+        deliveryAddress: consumer.deliveryAddress,
+        deliveryTime: consumer.deliveryTime,
+        inn: consumer.inn,
+        _id: consumer._id,
+      },
+      token,
+    });
+  } catch (error) {
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: "Ошибка сервера" });
+  }
+};
+
+export {
+  verificationConsumer,
+  newOrder,
+  getAllOrdersByConsumerId,
+  editMainInfo,
+};
