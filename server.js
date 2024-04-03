@@ -49,7 +49,7 @@ app.use("/uploads/files", express.static(path.join("uploads", "files")));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get("/", (req, res) => {
-  res.json({ msg: "welcom" });
+  res.json({ msg: "welcome" });
 });
 
 app.use("/api/auth/provider", authProviderRouter);
