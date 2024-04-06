@@ -1,0 +1,77 @@
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /api/consumer/newtemplate:
+    post:
+      summary: Создание нового шаблона
+      tags:
+        - Шаблоны
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                templateName:
+                  type: string
+                  description: Название шаблона
+                orderName:
+                  type: string
+                  description: Название заявки
+                consumerId:
+                  type: string
+                  description: consumer id
+                day:
+                  type: string
+                  description: Крайний день доставки
+                time:
+                  type: string
+                  description: Крайнее время доставки
+                acceptTime:
+                  type: string
+                  description: Время до которого принимается доставка
+                description:
+                  type: string
+                  description: Описание заявки
+                images:
+                  type: array
+                  items:
+                    type: string
+                categories:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      categoryName:
+                        type: string
+                        description: Название категории
+                      products:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            productName:
+                              type: string
+                              description: Название продукта
+                            amount:
+                              type: number
+                              description: Количество
+                            measure:
+                              type: string
+                              description: Единица измерения
+      responses:
+        "200":
+          description: Шаблон успешно создан
+        "400":
+          description: Неверный запрос
+        "401":
+          description: Не авторизован
+        "500":
+          description: Ошибка сервера

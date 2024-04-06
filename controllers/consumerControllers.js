@@ -7,6 +7,7 @@ import Consumer from "../models/Consumer.js";
 import AWS from "aws-sdk";
 import fs from "fs";
 import Order from "../models/Order.js";
+import Template from "../models/Template.js";
 
 const spacesEndpoint = new AWS.Endpoint("fra1.digitaloceanspaces.com");
 const s3 = new AWS.S3({
@@ -196,9 +197,98 @@ const editMainInfo = async (req, res) => {
   }
 };
 
+const newTemplate = async (req, res) => {
+  const {
+    templateName,
+    orderName,
+    day,
+    time,
+    acceptTime,
+    description,
+    categories,
+    consumerId,
+  } = req.body;
+
+  if (
+    !templateName ||
+    !orderName ||
+    !day ||
+    !acceptTime ||
+    !description ||
+    !categories ||
+    !time
+  ) {
+    return res.status(400).json({ message: "Все поля должны быть заполнены." });
+  }
+
+  let filePaths = [];
+  if (req.files) {
+    const uploadPromises = req.files.map((file) => {
+      const fileContent = fs.readFileSync(file.path);
+      // const uploadPromises = req.files.map(async (file) => {
+      //   const fileContent = await fs.readFile(file.path);
+
+      const params = {
+        Bucket: bucketName,
+        Key: `${file.path}`,
+        Body: fileContent,
+        ACL: "public-read",
+      };
+      return s3
+        .upload(params)
+        .promise()
+        .then((data) => {
+          return data.Location;
+        });
+    });
+
+    try {
+      filePaths = await Promise.all(uploadPromises);
+    } catch (error) {
+      return res
+        .status(500)
+        .send("Ошибка при загрузке файлов: " + error.message);
+    }
+
+    try {
+      const order = await Template.create({
+        templateName,
+        orderName,
+        day,
+        time,
+        acceptTime,
+        description,
+        categories,
+        consumerId,
+        images: filePaths,
+      });
+      res.status(StatusCodes.CREATED).json({ order });
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  } else {
+    try {
+      const order = await Template.create({
+        templateName,
+        orderName,
+        day,
+        time,
+        acceptTime,
+        description,
+        consumerId,
+        categories,
+      });
+      res.status(StatusCodes.CREATED).json({ order });
+    } catch (error) {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(error.message);
+    }
+  }
+};
+
 export {
   verificationConsumer,
   newOrder,
   getAllOrdersByConsumerId,
   editMainInfo,
+  newTemplate,
 };

@@ -44,7 +44,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
-app.use("/uploads/files", express.static(path.join("uploads", "files")));
+app.use("/uploads/horeca", express.static(path.join("uploads", "horeca")));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
