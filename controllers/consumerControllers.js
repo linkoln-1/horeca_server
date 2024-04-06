@@ -285,10 +285,36 @@ const newTemplate = async (req, res) => {
   }
 };
 
+const getAllTemplatesByConsumerId = async (req, res) => {
+  const templates = await Template.find({ consumerId: req.params.consumerId });
+  res.status(StatusCodes.OK).json({ templates });
+};
+
+const deleteTemplateById = async (req, res) => {
+  try {
+    const deletedTemplate = await Template.findByIdAndDelete(
+      req.params.templateId
+    );
+    if (!deletedTemplate) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: "Шаблон не найден" });
+    }
+    res.status(StatusCodes.OK).json({ message: "Шаблон успешно удален" });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: "Произошла ошибка при удалении шаблона",
+      error: error.message,
+    });
+  }
+};
+
 export {
   verificationConsumer,
   newOrder,
   getAllOrdersByConsumerId,
   editMainInfo,
   newTemplate,
+  getAllTemplatesByConsumerId,
+  deleteTemplateById,
 };

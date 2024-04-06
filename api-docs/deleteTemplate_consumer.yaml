@@ -1,0 +1,66 @@
+paths:
+  /api/consumer/delete_template/{templateId}:
+    delete:
+      summary: Удаление шаблона по идентификатору
+      tags:
+        - Шаблоны
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: templateId
+          required: true
+          schema:
+            type: string
+          description: Идентификатор шаблона, который необходимо удалить
+      responses:
+        "200":
+          description: Шаблон успешно удален
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Шаблон успешно удален
+        "404":
+          description: Шаблон не найден
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Шаблон не найден
+        "500":
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Произошла ошибка при удалении шаблона
+                  error:
+                    type: string
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Template:
+      type: object
+      required:
+        - templateId
+        - name
+      properties:
+        templateId:
+          type: string
+          description: Уникальный идентификатор шаблона
+        name:
+          type: string
+          description: Название шаблона
