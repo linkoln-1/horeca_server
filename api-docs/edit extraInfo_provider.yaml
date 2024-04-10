@@ -1,0 +1,97 @@
+paths:
+  /api/provider/edit_extra_info:
+    post:
+      summary: Изменение дополнительной информации поставщика
+      tags:
+        - Изменение данных в личном кабинете
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                providerId:
+                  type: string
+                  description: Идентификатор поставщика
+                productCategory:
+                  type: array
+                  items:
+                    type: string
+                  description: Категории продуктов
+                minOrder:
+                  type: integer
+                  description: Минимальный размер заказа
+                deliveryMethod:
+                  type: array
+                  items:
+                    type: string
+                  description: Способы доставки
+              required:
+                - providerId
+      responses:
+        "201":
+          description: Дополнительные данные изменены успешно.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  provider:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                      phone:
+                        type: string
+                      companyName:
+                        type: string
+                      productCategory:
+                        type: array
+                        items:
+                          type: string
+                      minOrder:
+                        type: integer
+                      deliveryMethod:
+                        type: array
+                        items:
+                          type: string
+                      isVerificated:
+                        type: boolean
+                      _id:
+                        type: string
+                      inn:
+                        type: string
+                  token:
+                    type: string
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    BadRequest:
+      description: Неверный запрос, отсутствуют или некорректные параметры
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    InternalServerError:
+      description: Внутренняя ошибка сервера
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string

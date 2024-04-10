@@ -45,6 +45,10 @@ const registerProvider = async (req, res) => {
     if (consumerAlreadyExist) {
       throw new BadRequestError("Данный ИНН уже зарегистрирован у общепита");
     }
+    const consumerAlreadyExist2 = await Consumer.findOne({ email });
+    if (consumerAlreadyExist2) {
+      throw new BadRequestError("Данная почта уже используется");
+    }
 
     const code = cryptoRandomString({ length: 6, type: "numeric" });
 

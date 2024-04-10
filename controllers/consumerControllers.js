@@ -197,6 +197,40 @@ const editMainInfo = async (req, res) => {
   }
 };
 
+const editExtraInfo = async (req, res) => {
+  try {
+    const { consumerId, deliveryAddress, deliveryTime } = req.body;
+    if (!consumerId) {
+      throw new BadRequestError("Попробуйте позднее");
+    }
+    const consumer = await Consumer.findByIdAndUpdate(consumerId, {
+      deliveryAddress,
+      deliveryTime,
+    });
+
+    if (!consumerId) {
+      throw new BadRequestError("Попробуйте позднее");
+    }
+
+    const token = consumer.createJWT();
+
+    res.status(StatusCodes.CREATED).json({
+      consumer: {
+        email: consumer.email,
+        phone: consumer.phone,
+        companyName: consumer.companyName,
+        deliveryAddress: consumer.deliveryAddress,
+        deliveryTime: consumer.deliveryTime,
+        inn: consumer.inn,
+        _id: consumer._id,
+      },
+      token,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
+  }
+};
+
 const newTemplate = async (req, res) => {
   const {
     templateName,
@@ -317,4 +351,5 @@ export {
   newTemplate,
   getAllTemplatesByConsumerId,
   deleteTemplateById,
+  editExtraInfo,
 };

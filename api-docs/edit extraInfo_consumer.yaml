@@ -1,0 +1,93 @@
+paths:
+  /api/consumer/edit_extra_info:
+    post:
+      summary: Изменение дополнительной информации общепита
+      tags:
+        - Изменение данных в личном кабинете
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                consumerId:
+                  type: string
+                deliveryAddress:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                      deliveryTime:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            day:
+                              type: string
+                            from:
+                              type: string
+                            to:
+                              type: string
+              required:
+                - consumerId
+      responses:
+        "201":
+          description: Дополнительные данные изменены успешно.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  consumer:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                      phone:
+                        type: string
+                      companyName:
+                        type: string
+                      deliveryAddress:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            address:
+                              type: string
+                            deliveryTime:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  day:
+                                    type: string
+                                  from:
+                                    type: string
+                                  to:
+                                    type: string
+                      inn:
+                        type: string
+                      _id:
+                        type: string
+                  token:
+                    type: string
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    BadRequest:
+      description: Неверный запрос, отсутствуют или некорректные параметры
+    InternalServerError:
+      description: Внутренняя ошибка сервера

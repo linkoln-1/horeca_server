@@ -104,4 +104,41 @@ const editMainInfo = async (req, res) => {
   }
 };
 
-export { verificationProvider, editMainInfo };
+const editExtraInfo = async (req, res) => {
+  try {
+    const { providerId, productCategory, minOrder, deliveryMethod } = req.body;
+    if (!providerId) {
+      throw new BadRequestError("Попробуйте позднее");
+    }
+    const provider = await Provider.findByIdAndUpdate(providerId, {
+      productCategory,
+      minOrder,
+      deliveryMethod,
+    });
+
+    if (!providerId) {
+      throw new BadRequestError("Попробуйте позднее");
+    }
+
+    const token = provider.createJWT();
+
+    res.status(StatusCodes.CREATED).json({
+      provider: {
+        email: provider.email,
+        phone: provider.phone,
+        companyName: provider.companyName,
+        productCategory: provider.productCategory,
+        minOrder: provider.minOrder,
+        deliveryMethod: provider.deliveryMethod,
+        isVerificated: provider.isVerificated,
+        _id: provider._id,
+        inn: provider.inn,
+      },
+      token,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
+  }
+};
+
+export { verificationProvider, editMainInfo, editExtraInfo };
