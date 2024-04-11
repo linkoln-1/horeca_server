@@ -64,6 +64,8 @@ const newOrder = async (req, res) => {
     description,
     categories,
     consumerId,
+    paymentMethod,
+    deliveryAddress,
   } = req.body;
 
   if (
@@ -72,6 +74,8 @@ const newOrder = async (req, res) => {
     !acceptTime ||
     !description ||
     !categories ||
+    !paymentMethod ||
+    !deliveryAddress ||
     !time
   ) {
     return res.status(400).json({ message: "Все поля должны быть заполнены." });
@@ -115,6 +119,8 @@ const newOrder = async (req, res) => {
         description,
         categories,
         consumerId,
+        paymentMethod,
+        deliveryAddress,
         images: filePaths,
       });
       res.status(StatusCodes.CREATED).json({ order });
@@ -131,6 +137,8 @@ const newOrder = async (req, res) => {
         description,
         consumerId,
         categories,
+        paymentMethod,
+        deliveryAddress,
       });
       res.status(StatusCodes.CREATED).json({ order });
     } catch (error) {
@@ -234,22 +242,24 @@ const editExtraInfo = async (req, res) => {
 const newTemplate = async (req, res) => {
   const {
     templateName,
-    // orderName,
     day,
     time,
     acceptTime,
     description,
     categories,
     consumerId,
+    paymentMethod,
+    deliveryAddress,
   } = req.body;
 
   if (
     !templateName ||
-    // !orderName ||
     !day ||
     !acceptTime ||
     !description ||
     !categories ||
+    !paymentMethod ||
+    !deliveryAddress ||
     !time
   ) {
     return res.status(400).json({ message: "Все поля должны быть заполнены." });
@@ -287,7 +297,6 @@ const newTemplate = async (req, res) => {
     try {
       const order = await Template.create({
         templateName,
-        // orderName,
         day,
         time,
         acceptTime,
@@ -295,6 +304,8 @@ const newTemplate = async (req, res) => {
         categories,
         consumerId,
         images: filePaths,
+        paymentMethod,
+        deliveryAddress,
       });
       res.status(StatusCodes.CREATED).json({ order });
     } catch (error) {
@@ -304,13 +315,15 @@ const newTemplate = async (req, res) => {
     try {
       const order = await Template.create({
         templateName,
-        // orderName,
+
         day,
         time,
         acceptTime,
         description,
         consumerId,
         categories,
+        paymentMethod,
+        deliveryAddress,
       });
       res.status(StatusCodes.CREATED).json({ order });
     } catch (error) {

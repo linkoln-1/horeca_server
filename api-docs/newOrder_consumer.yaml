@@ -19,9 +19,12 @@ paths:
             schema:
               type: object
               properties:
-                orderName:
+                paymentMethod:
                   type: string
-                  description: Название заявки
+                  description: Спопоб оптаты
+                deliveryAddress:
+                  type: string
+                  description: Адрес доставки
                 consumerId:
                   type: string
                   description: consumer id

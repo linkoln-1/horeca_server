@@ -7,11 +7,16 @@ const TemplateSchema = new mongoose.Schema(
       required: [true, "Пожалуйста, укажите название шаблона"],
       trim: true,
     },
-    // orderName: {
-    //   type: String,
-    //   required: [true, "Пожалуйста, укажите название заявки"],
-    //   trim: true,
-    // },
+    paymentMethod: {
+      type: String,
+      required: [true, "Пожалуйста, укажите название заявки"],
+      trim: true,
+    },
+    deliveryAddress: {
+      type: String,
+      required: [true, "Пожалуйста, укажите название заявки"],
+      trim: true,
+    },
     consumerId: {
       type: String,
       required: [true, "Что то пошло не так, попробуйте позже"],

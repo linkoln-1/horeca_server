@@ -22,9 +22,12 @@ paths:
                 templateName:
                   type: string
                   description: Название шаблона
-                # orderName:
-                #   type: string
-                #   description: Название заявки
+                paymentMethod:
+                  type: string
+                  description: Спопоб оптаты
+                deliveryAddress:
+                  type: string
+                  description: Адрес доставки
                 consumerId:
                   type: string
                   description: consumer id
