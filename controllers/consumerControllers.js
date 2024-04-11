@@ -234,7 +234,7 @@ const editExtraInfo = async (req, res) => {
 const newTemplate = async (req, res) => {
   const {
     templateName,
-    orderName,
+    // orderName,
     day,
     time,
     acceptTime,
@@ -245,7 +245,7 @@ const newTemplate = async (req, res) => {
 
   if (
     !templateName ||
-    !orderName ||
+    // !orderName ||
     !day ||
     !acceptTime ||
     !description ||
@@ -287,7 +287,7 @@ const newTemplate = async (req, res) => {
     try {
       const order = await Template.create({
         templateName,
-        orderName,
+        // orderName,
         day,
         time,
         acceptTime,
@@ -304,7 +304,7 @@ const newTemplate = async (req, res) => {
     try {
       const order = await Template.create({
         templateName,
-        orderName,
+        // orderName,
         day,
         time,
         acceptTime,

@@ -22,9 +22,9 @@ paths:
                 templateName:
                   type: string
                   description: Название шаблона
-                orderName:
-                  type: string
-                  description: Название заявки
+                # orderName:
+                #   type: string
+                #   description: Название заявки
                 consumerId:
                   type: string
                   description: consumer id
