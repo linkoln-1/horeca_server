@@ -4,22 +4,22 @@ const TemplateSchema = new mongoose.Schema(
   {
     templateName: {
       type: String,
-      required: [true, "Пожалуйста, укажите название шаблона"],
+      // required: [true, "Пожалуйста, укажите название шаблона"],
       trim: true,
     },
     paymentMethod: {
       type: String,
-      required: [true, "Пожалуйста, укажите название заявки"],
+      // required: [true, "Пожалуйста, укажите название заявки"],
       trim: true,
     },
     deliveryAddress: {
       type: String,
-      required: [true, "Пожалуйста, укажите название заявки"],
+      // required: [true, "Пожалуйста, укажите название заявки"],
       trim: true,
     },
     consumerId: {
       type: String,
-      required: [true, "Что то пошло не так, попробуйте позже"],
+      // required: [true, "Что то пошло не так, попробуйте позже"],
     },
     active: {
       type: Boolean,
@@ -27,22 +27,22 @@ const TemplateSchema = new mongoose.Schema(
     },
     day: {
       type: String,
-      required: [true, "Пожалуйста, укажите крайний день доставки"],
+      // required: [true, "Пожалуйста, укажите крайний день доставки"],
     },
     time: {
       type: String,
-      required: [true, "Пожалуйста, укажите крайнее время доставки"],
+      // required: [true, "Пожалуйста, укажите крайнее время доставки"],
     },
     acceptTime: {
       type: String,
-      required: [
-        true,
-        "Пожалуйста, укажите время до которого принимается доставка",
-      ],
+      // required: [
+      //   true,
+      //   "Пожалуйста, укажите время до которого принимается доставка",
+      // ],
     },
     description: {
       type: String,
-      required: [true, "Пожалуйста, добавьте описание заявки"],
+      // required: [true, "Пожалуйста, добавьте описание заявки"],
     },
     images: [String],
     categories: [
