@@ -240,6 +240,7 @@ const editExtraInfo = async (req, res) => {
 };
 
 const newTemplate = async (req, res) => {
+  console.log(req.body);
   const {
     templateName,
     day,
