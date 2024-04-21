@@ -49,23 +49,21 @@ const TemplateSchema = new mongoose.Schema(
       {
         categoryName: {
           type: String,
-          required: true,
-          required: [true, "Пожалуйста, укажите название категории"],
+          // required: [true, "Пожалуйста, укажите название категории"],
         },
         products: [
           {
             productName: {
               type: String,
-              required: [true, "Пожалуйста, укажите название"],
+              // required: [true, "Пожалуйста, укажите название"],
             },
             amount: {
               type: Number,
-              required: [true, "Пожалуйста, укажите количество"],
+              // required: [true, "Пожалуйста, укажите количество"],
             },
             measure: {
               type: String,
-              required: true,
-              required: [true, "Пожалуйста, укажите единицу измерения"],
+              // required: [true, "Пожалуйста, укажите единицу измерения"],
             },
           },
         ],

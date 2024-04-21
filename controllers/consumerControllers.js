@@ -258,7 +258,7 @@ const newTemplate = async (req, res) => {
     !day ||
     !acceptTime ||
     !description ||
-    !categories ||
+    // !categories ||
     !paymentMethod ||
     !deliveryAddress ||
     !time
@@ -316,7 +316,6 @@ const newTemplate = async (req, res) => {
     try {
       const order = await Template.create({
         templateName,
-
         day,
         time,
         acceptTime,
