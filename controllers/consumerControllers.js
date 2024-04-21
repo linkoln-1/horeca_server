@@ -253,18 +253,18 @@ const newTemplate = async (req, res) => {
     deliveryAddress,
   } = req.body;
 
-  if (
-    !templateName ||
-    !day ||
-    !acceptTime ||
-    !description ||
-    // !categories ||
-    !paymentMethod ||
-    !deliveryAddress ||
-    !time
-  ) {
-    return res.status(400).json({ message: "Все поля должны быть заполнены." });
-  }
+  // if (
+  //   !templateName ||
+  //   !day ||
+  //   !acceptTime ||
+  //   !description ||
+  //   // !categories ||
+  //   !paymentMethod ||
+  //   !deliveryAddress ||
+  //   !time
+  // ) {
+  //   return res.status(400).json({ message: "Все поля должны быть заполнены." });
+  // }
 
   let filePaths = [];
   if (req.files) {
