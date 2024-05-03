@@ -75,7 +75,7 @@ mongoose
     `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}/horeca`
   )
   .then(() => {
-    app.listen(5357);
+    app.listen(1000);
     console.log("Server has been started, DB connected");
   })
   .catch((err) => {
