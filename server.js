@@ -48,6 +48,15 @@ app.use("/uploads/horeca", express.static(path.join("uploads", "horeca")));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.use("/api-docs", swaggerUi.serve, (req, res) => {
+  res.send(swaggerUi.generateUrl("/api-docs-json"));
+});
+
+app.get("/api-docs-json", (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
 app.get("/", (req, res) => {
   res.json({ msg: "welcome" });
 });
@@ -66,9 +75,11 @@ mongoose
     `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}/horeca`
   )
   .then(() => {
-    app.listen(1000);
+    app.listen(5357);
     console.log("Server has been started, DB connected");
   })
   .catch((err) => {
     console.log(err);
   });
+
+
